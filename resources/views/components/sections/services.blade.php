@@ -39,8 +39,13 @@
                          loading="lazy"
                          class="w-12 h-12 object-cover rounded-xl">
                     @elseif($service->icon)
-                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl">
-                        {{ $service->icon }}
+                    @php
+                        $icon = filled($service->icon) && str_starts_with($service->icon, 'heroicon-')
+                            ? $service->icon
+                            : 'heroicon-o-bolt';
+                    @endphp
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                        <x-dynamic-component :component="$icon" class="w-6 h-6" />
                     </div>
                     @else
                     <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center" aria-hidden="true">

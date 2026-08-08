@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\AboutSections\RelationManagers;
 
+use App\Support\HeroiconOptions;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -27,7 +29,7 @@ class FeaturesRelationManager extends RelationManager
 
     public function form(Schema $schema): Schema
     {
-        return $schema->components([TextInput::make('icon')->label('Ikon'), TextInput::make('title')->label('Judul')->required(), Textarea::make('description')->label('Deskripsi')->columnSpanFull(), TextInput::make('sort_order')->label('Urutan')->numeric()->required()->default(0), Toggle::make('is_active')->label('Aktif')->default(true)]);
+        return $schema->components([Select::make('icon')->label('Ikon')->options(HeroiconOptions::all())->searchable()->preload()->native(false)->placeholder('Pilih ikon (opsional)'), TextInput::make('title')->label('Judul')->required(), Textarea::make('description')->label('Deskripsi')->columnSpanFull(), TextInput::make('sort_order')->label('Urutan')->numeric()->required()->default(0), Toggle::make('is_active')->label('Aktif')->default(true)]);
     }
 
     public function infolist(Schema $schema): Schema

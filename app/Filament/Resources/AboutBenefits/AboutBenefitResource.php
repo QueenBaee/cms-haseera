@@ -8,9 +8,11 @@ use App\Filament\Resources\AboutBenefits\Pages\CreateAboutBenefit;
 use App\Filament\Resources\AboutBenefits\Pages\EditAboutBenefit;
 use App\Filament\Resources\AboutBenefits\Pages\ListAboutBenefits;
 use App\Models\AboutBenefit;
+use App\Support\HeroiconOptions;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -43,7 +45,7 @@ class AboutBenefitResource extends Resource
         return $schema->components([
             Section::make()->schema([
                 TextInput::make('title')->label('Judul')->required()->maxLength(255),
-                TextInput::make('icon')->label('Icon')->helperText('Nama heroicon, contoh: check-circle'),
+                Select::make('icon')->label('Ikon')->options(HeroiconOptions::all())->searchable()->preload()->native(false)->placeholder('Pilih ikon (opsional)'),
                 Textarea::make('description')->label('Deskripsi')->rows(2)->columnSpanFull(),
                 TextInput::make('sort_order')->label('Urutan')->numeric()->default(0),
                 Toggle::make('is_active')->label('Aktif')->default(true),
