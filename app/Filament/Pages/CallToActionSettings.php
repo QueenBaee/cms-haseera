@@ -16,6 +16,8 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Form;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
@@ -29,7 +31,7 @@ class CallToActionSettings extends Page implements HasForms
 
     protected string $view = 'filament.pages.call-to-action-settings';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Landing Page';
+    protected static string|\UnitEnum|null $navigationGroup = 'Konfigurasi';
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::Megaphone;
 
@@ -37,7 +39,7 @@ class CallToActionSettings extends Page implements HasForms
 
     protected static ?string $title = 'Pengaturan Call to Action';
 
-    protected static ?int $navigationSort = 10;
+    protected static ?int $navigationSort = 3;
 
     public ?array $data = [];
 
@@ -56,14 +58,24 @@ class CallToActionSettings extends Page implements HasForms
     public function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Konten')->schema([
-                TextInput::make('eyebrow')->label('Eyebrow'), TextInput::make('title')->label('Judul')->required(),
-                TextInput::make('highlighted_text')->label('Teks Disorot'), Textarea::make('description')->label('Deskripsi')->columnSpanFull(),
-                FileUpload::make('background_image')->label('Gambar Latar')->image()->disk('public')->directory('landing-page/cta')->visibility('public')->maxSize(5120)->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp']),
-                Toggle::make('is_active')->label('Aktif')->default(true),
-            ])->columns(2),
-            self::buttonSection('Tombol Utama', 'primary'),
-            self::buttonSection('Tombol Sekunder', 'secondary'),
+            Form::make([
+                Section::make('Konten')->schema([
+                    TextInput::make('eyebrow')->label('Eyebrow'), TextInput::make('title')->label('Judul')->required(),
+                    TextInput::make('highlighted_text')->label('Teks Disorot'), Textarea::make('description')->label('Deskripsi')->columnSpanFull(),
+                    FileUpload::make('background_image')->label('Gambar Latar')->image()->disk('public')->directory('landing-page/cta')->visibility('public')->maxSize(5120)->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp']),
+                    Toggle::make('is_active')->label('Aktif')->default(true),
+                ])->columns(2),
+                self::buttonSection('Tombol Utama', 'primary'),
+                self::buttonSection('Tombol Sekunder', 'secondary'),
+            ])
+                ->footer([
+                    Actions::make([
+                        Action::make('save')
+                            ->label('Simpan Pengaturan')
+                            ->submit('save')
+                            ->keyBindings(['mod+s']),
+                    ]),
+                ]),
         ])->statePath('data');
     }
 
@@ -74,11 +86,6 @@ class CallToActionSettings extends Page implements HasForms
         DB::transaction(fn () => CallToActionSetting::query()->updateOrCreate(['id' => 1], $this->form->getState()));
         LandingPageService::clearAllCache();
         Notification::make()->title('Pengaturan Call to Action berhasil disimpan.')->success()->send();
-    }
-
-    protected function getFormActions(): array
-    {
-        return [Action::make('save')->label('Simpan Pengaturan')->submit('save')];
     }
 
     private static function buttonSection(string $title, string $prefix): Section

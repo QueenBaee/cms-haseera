@@ -347,3 +347,19 @@ test('authenticated user can access call to action settings page', function () {
         ->get('/admin/call-to-action-settings')
         ->assertSuccessful();
 });
+
+test('authenticated user can access manage homepage page', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/admin/manage-homepage')
+        ->assertSuccessful();
+});
+
+test('authenticated user can access manage site settings page', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/admin/manage-site-settings')
+        ->assertSuccessful();
+});

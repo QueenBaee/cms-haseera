@@ -22,9 +22,9 @@ class TestimonialResource extends Resource
 {
     protected static ?string $model = Testimonial::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::ChatBubbleLeftRight;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Landing Page';
+    protected static string|\UnitEnum|null $navigationGroup = 'Website';
 
     protected static ?string $navigationLabel = 'Testimoni';
 
@@ -32,7 +32,7 @@ class TestimonialResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Testimoni';
 
-    protected static ?int $navigationSort = 9;
+    protected static ?int $navigationSort = 6;
 
     public static function form(Schema $schema): Schema
     {

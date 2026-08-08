@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\AboutBenefit;
 use App\Models\AboutFeature;
 use App\Models\AboutSection;
 use App\Models\CallToActionSetting;
@@ -15,6 +16,7 @@ use App\Models\Portfolio;
 use App\Models\PortfolioCategory;
 use App\Models\PortfolioImage;
 use App\Models\Service;
+use App\Models\SiteSetting;
 use App\Models\SocialMediaLink;
 use App\Models\Testimonial;
 use App\Observers\LandingPageCacheObserver;
@@ -49,6 +51,8 @@ class AppServiceProvider extends ServiceProvider
             Testimonial::class,
             CallToActionSetting::class,
             SocialMediaLink::class,
+            SiteSetting::class,
+            AboutBenefit::class,
         ] as $model) {
             $model::observe(LandingPageCacheObserver::class);
         }

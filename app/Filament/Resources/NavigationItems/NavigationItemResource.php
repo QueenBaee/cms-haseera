@@ -22,9 +22,9 @@ class NavigationItemResource extends Resource
 {
     protected static ?string $model = NavigationItem::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Bars3;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Landing Page';
+    protected static string|\UnitEnum|null $navigationGroup = 'Website';
 
     protected static ?string $navigationLabel = 'Menu Navigasi';
 

@@ -1,3 +1,4 @@
+/client-assets/
 *.log
 .DS_Store
 .env

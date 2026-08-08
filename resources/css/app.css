@@ -6,4 +6,240 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-purple-400: #a78bfa;
+    --color-purple-500: #8b5cf6;
+    --color-purple-600: #7c3aed;
+    --color-purple-900: #4c1d95;
+    --color-emerald-400: #34d399;
+    --color-emerald-500: #20c997;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background-color: #111111;
+        color: #ffffff;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+        background-color: rgba(124, 58, 237, 0.4);
+        color: #ffffff;
+    }
+
+    :focus-visible {
+        outline: 2px solid #8b5cf6;
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .bg-grid {
+        background-image:
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+    }
+
+    .glow-purple {
+        box-shadow: 0 0 40px rgba(124, 58, 237, 0.15);
+    }
+
+    .glow-purple-sm {
+        box-shadow: 0 0 20px rgba(124, 58, 237, 0.1);
+    }
+}
+
+@layer components {
+    /* ── Contact form inputs ─────────────────────────────────────────── */
+    .contact-input {
+        background-color: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.75rem;
+        padding: 0.625rem 0.875rem;
+        font-size: 0.875rem;
+        color: #ffffff;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+    }
+
+    .contact-input::placeholder {
+        color: #525252;
+    }
+
+    .contact-input:focus {
+        border-color: rgba(139, 92, 246, 0.6);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+    }
+
+    .contact-input:hover:not(:focus) {
+        border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    /* ── Brand continuous marquee ────────────────────────────────────── */
+    .brand-marquee {
+        overflow: hidden;
+        /* Edge fade: ~80px kiri/kanan */
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0px,
+            black 80px,
+            black calc(100% - 80px),
+            transparent 100%
+        );
+        mask-image: linear-gradient(
+            to right,
+            transparent 0px,
+            black 80px,
+            black calc(100% - 80px),
+            transparent 100%
+        );
+    }
+
+    .brand-track {
+        display: flex;
+        width: max-content;
+        gap: 14px;
+        padding: 4px 0;
+        animation: marquee-left 40s linear infinite;
+    }
+
+    /* Brand card: compact */
+    .brand-card {
+        width: 210px;
+        height: 100px;
+    }
+
+    /* Inner logo plate */
+    .brand-logo-plate {
+        width: 170px;
+        height: 70px;
+        padding: 10px 14px;
+        border-radius: 10px;
+    }
+
+    /* Logo image: clipped, no overflow */
+    .brand-logo-img {
+        display: block;
+        max-width: 145px;
+        max-height: 50px;
+    }
+
+    @media (max-width: 640px) {
+        .brand-card {
+            width: 160px;
+            height: 88px;
+        }
+
+        .brand-logo-plate {
+            width: 132px;
+            height: 64px;
+            padding: 8px 10px;
+        }
+
+        .brand-logo-img {
+            max-width: 112px;
+            max-height: 44px;
+        }
+    }
+
+    /* Pause on hover */
+    .brand-marquee:hover .brand-track {
+        animation-play-state: paused;
+    }
+
+    /* Reduced motion: stop animation, show as wrapping static row */
+    @media (prefers-reduced-motion: reduce) {
+        .brand-track {
+            animation: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+        }
+
+        /* Hide duplicate group when static */
+        .brand-track > div:last-child {
+            display: none;
+        }
+    }
+
+    /* ── Testimonial continuous marquee ─────────────────────────────────── */
+    .testimonial-marquee {
+        overflow: hidden;
+        /* Edge fade masks */
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            black 8%,
+            black 92%,
+            transparent 100%
+        );
+        mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            black 8%,
+            black 92%,
+            transparent 100%
+        );
+    }
+
+    .testimonial-track {
+        display: flex;
+        width: max-content;
+        gap: 20px;
+        animation: marquee-right 45s linear infinite;
+    }
+
+    /* Pause on hover */
+    .testimonial-marquee:hover .testimonial-track {
+        animation-play-state: paused;
+    }
+
+    .testimonial-card-item {
+        flex: 0 0 340px;
+        width: 340px;
+    }
+
+    @media (max-width: 640px) {
+        .testimonial-card-item {
+            flex: 0 0 82vw;
+            width: 82vw;
+        }
+    }
+
+    /* Reduced motion: stop animation, show as static row */
+    @media (prefers-reduced-motion: reduce) {
+        .testimonial-track {
+            animation: none;
+        }
+    }
+}
+
+@keyframes marquee-right {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(calc(-50% - 10px), 0, 0); }
+}
+
+@keyframes marquee-left {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(calc(-50% - 8px), 0, 0); }
 }

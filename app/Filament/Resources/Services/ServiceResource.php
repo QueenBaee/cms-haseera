@@ -22,9 +22,9 @@ class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Briefcase;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Landing Page';
+    protected static string|\UnitEnum|null $navigationGroup = 'Website';
 
     protected static ?string $navigationLabel = 'Layanan';
 
@@ -32,7 +32,7 @@ class ServiceResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Layanan';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Schema $schema): Schema
     {
