@@ -2,7 +2,14 @@
     x-data="{
         open: false,
         active: '',
+        isHome: {{ request()->is('/') || request()->routeIs('home') ? 'true' : 'false' }},
+        resolveUrl(url) {
+            // Anchor-only link (#section): di non-home prefix dengan /
+            if (url.startsWith('#')) return this.isHome ? url : '/' + url;
+            return url;
+        },
         init() {
+            if (!this.isHome) return;
             const sections = document.querySelectorAll('section[id], div[id]');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -31,7 +38,7 @@
             {{-- Desktop nav --}}
             <nav class="hidden md:flex items-center gap-1" aria-label="Navigasi utama">
                 @foreach($navItems->filter(fn($i) => in_array($i->navigation_location instanceof \App\Enums\NavigationLocation ? $i->navigation_location->value : $i->navigation_location, ['header','both'])) as $item)
-                    <a href="{{ $item->url }}"
+                    <a :href="resolveUrl('{{ $item->url }}')"
                        @if($item->open_new_tab) target="_blank" rel="noopener noreferrer" @endif
                        :class="active === '{{ $item->url }}' ? 'text-white bg-white/10' : 'text-[#A3A3A3] hover:text-white hover:bg-white/5'"
                        class="px-4 py-2 text-sm transition-colors duration-200 rounded-lg">
@@ -72,7 +79,7 @@
          style="display:none">
         <nav class="px-4 py-4 flex flex-col gap-1" aria-label="Navigasi mobile">
             @foreach($navItems->filter(fn($i) => in_array($i->navigation_location instanceof \App\Enums\NavigationLocation ? $i->navigation_location->value : $i->navigation_location, ['header','both'])) as $item)
-                <a href="{{ $item->url }}"
+                <a :href="resolveUrl('{{ $item->url }}')"
                    @click="open = false"
                    @if($item->open_new_tab) target="_blank" rel="noopener noreferrer" @endif
                    :class="active === '{{ $item->url }}' ? 'text-white bg-white/10' : 'text-[#A3A3A3] hover:text-white hover:bg-white/5'"

@@ -16,8 +16,15 @@
             </p>
             @endif
             @if($settings->cta_button_text)
-            <a href="{{ $settings->cta_button_url ?? '#' }}"
-               class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-[#20C997] text-[#111111] font-bold text-base hover:bg-[#1aad82] transition-all duration-200 hover:scale-105 shadow-lg shadow-emerald-500/20">
+            @php
+                $ctaUrl = $settings->cta_button_url ?? '';
+                // Jika kosong, anchor (#...), atau mailto:/tel: → arahkan ke halaman kontak
+                if (empty($ctaUrl) || preg_match('/^(#|mailto:|tel:)/i', $ctaUrl)) {
+                    $ctaUrl = route('contact.index');
+                }
+            @endphp
+            <a href="{{ $ctaUrl }}"
+               class="inline-flex max-w-full items-center justify-center gap-2 px-6 sm:px-8 py-4 rounded-xl bg-[#20C997] text-[#111111] text-center font-bold text-base hover:bg-[#1aad82] transition-all duration-200 hover:scale-105 shadow-lg shadow-emerald-500/20">
                 {{ $settings->cta_button_text }}
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -82,7 +89,7 @@
                     ));
                 @endphp
                 @if($footerNav->isNotEmpty())
-                <div>
+                <div class="min-w-0">
                     <h3 class="text-sm font-semibold text-white uppercase tracking-widest mb-4">Navigasi</h3>
                     <ul class="space-y-2">
                         @foreach($footerNav as $item)
@@ -107,7 +114,7 @@
                             <svg class="w-4 h-4 text-purple-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
-                            <a href="mailto:{{ $settings->email }}" class="text-sm text-[#666] hover:text-white transition-colors">{{ $settings->email }}</a>
+                            <a href="{{ route('contact.index') }}" class="min-w-0 break-all text-sm text-[#666] hover:text-white transition-colors">{{ $settings->email }}</a>
                         </li>
                         @endif
                         @if($settings->phone)
@@ -115,7 +122,7 @@
                             <svg class="w-4 h-4 text-purple-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                             </svg>
-                            <a href="tel:{{ $settings->phone }}" class="text-sm text-[#666] hover:text-white transition-colors">{{ $settings->phone }}</a>
+                            <a href="{{ route('contact.index') }}" class="text-sm text-[#666] hover:text-white transition-colors">{{ $settings->phone }}</a>
                         </li>
                         @endif
                         @if($settings->address)

@@ -63,15 +63,15 @@
              @mouseleave="paused = false">
 
             {{-- Viewport: overflow-hidden clips the sliding track --}}
-            <div class="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#1A1A1A]">
+            <div class="relative w-full min-w-0 rounded-2xl overflow-hidden border border-white/[0.08] bg-[#1A1A1A]">
 
                 {{-- Track: flex row, moves via translate3d --}}
-                <div class="flex transition-transform duration-[600ms] ease-in-out"
+                <div class="flex min-w-0 transition-transform duration-[600ms] ease-in-out"
                      :style="'transform: translate3d(-' + (current * 100) + '%, 0, 0)'">
 
                     @foreach($slides as $portfolio)
                     {{-- Each slide: full width, never hidden --}}
-                    <div class="w-full shrink-0 grid grid-cols-1 lg:grid-cols-2">
+                    <div class="w-full min-w-0 shrink-0 grid grid-cols-1 lg:grid-cols-2">
 
                         {{-- Image --}}
                         <div class="relative overflow-hidden bg-[#141414]">
@@ -103,7 +103,7 @@
                         </div>
 
                         {{-- Content --}}
-                        <div class="flex flex-col justify-center p-6 lg:p-8">
+                        <div class="min-w-0 flex flex-col justify-center p-6 lg:p-8">
 
                             @if($portfolio->client_name)
                             <p class="text-xs font-semibold text-purple-400 uppercase tracking-widest mb-2">
@@ -112,7 +112,17 @@
                             @endif
 
                             <h3 class="text-xl lg:text-2xl font-bold text-white mb-3 leading-tight">
-                                {{ $portfolio->title }}
+                                @if($portfolio->project_url)
+                                <a href="{{ $portfolio->project_url }}"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   aria-label="Buka proyek {{ $portfolio->title }}"
+                                   class="transition-colors duration-200 hover:text-purple-400">
+                                    {{ $portfolio->title }}
+                                </a>
+                                @else
+                                    {{ $portfolio->title }}
+                                @endif
                             </h3>
 
                             @if($portfolio->short_description)
@@ -129,17 +139,6 @@
                                 </span>
                                 @endforeach
                             </div>
-                            @endif
-
-                            @if($portfolio->project_url)
-                            <a href="{{ $portfolio->project_url }}"
-                               target="_blank" rel="noopener noreferrer"
-                               class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#20C997] text-[#111111] font-semibold text-sm hover:bg-[#1aad82] transition-colors duration-200 self-start">
-                                {{ $portfolio->button_text ?? 'Lihat Proyek' }}
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                </svg>
-                            </a>
                             @endif
 
                         </div>

@@ -215,8 +215,8 @@
     }
 
     .testimonial-card-item {
-        flex: 0 0 340px;
-        width: 340px;
+        flex: 0 0 min(340px, 82vw);
+        width: min(340px, 82vw);
     }
 
     @media (max-width: 640px) {

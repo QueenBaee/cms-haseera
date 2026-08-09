@@ -1,4 +1,4 @@
-<section id="services" class="py-24 bg-[#0e0e0e] relative overflow-hidden">
+<section id="services" class="py-14 sm:py-20 lg:py-24 bg-[#0e0e0e] relative overflow-hidden">
 
     <div class="absolute top-0 right-1/4 w-[500px] h-[400px] opacity-10 pointer-events-none" aria-hidden="true"
          style="background: radial-gradient(ellipse at center, #7C3AED 0%, transparent 70%);"></div>
@@ -6,7 +6,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {{-- Section heading --}}
-        <div class="text-center mb-16">
+        <div class="text-center mb-10 sm:mb-16">
             @if($settings->services_eyebrow)
             <p class="text-sm font-semibold text-purple-400 uppercase tracking-widest mb-4">
                 {{ $settings->services_eyebrow }}
