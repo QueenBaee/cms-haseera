@@ -21,6 +21,10 @@ use App\Services\LandingPageService;
 use Database\Seeders\LandingPageSeeder;
 use Illuminate\Support\Facades\Cache;
 
+beforeEach(function (): void {
+    config()->set('haseera.admin_google_emails', 'admin@example.com');
+});
+
 // ─── Seeder idempotent ────────────────────────────────────────────────────────
 
 test('seeder is idempotent — running twice produces correct counts', function () {
@@ -281,7 +285,7 @@ test('Cache is cleared when HeroSlide is deleted', function () {
 // ─── Filament page access ─────────────────────────────────────────────────────
 
 test('authenticated user can access Filament admin panel', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
 
     $this->actingAs($user)
         ->get('/admin')
@@ -293,7 +297,7 @@ test('unauthenticated user is redirected from admin panel', function () {
 });
 
 test('authenticated user can access hero slides list page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
 
     $this->actingAs($user)
         ->get('/admin/hero-slides')
@@ -301,7 +305,7 @@ test('authenticated user can access hero slides list page', function () {
 });
 
 test('authenticated user can access navigation items list page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
 
     $this->actingAs($user)
         ->get('/admin/navigation-items')
@@ -309,7 +313,7 @@ test('authenticated user can access navigation items list page', function () {
 });
 
 test('authenticated user can access services list page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
 
     $this->actingAs($user)
         ->get('/admin/services')
@@ -317,7 +321,7 @@ test('authenticated user can access services list page', function () {
 });
 
 test('authenticated user can access portfolios list page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
 
     $this->actingAs($user)
         ->get('/admin/portfolios')
@@ -325,7 +329,7 @@ test('authenticated user can access portfolios list page', function () {
 });
 
 test('authenticated user can access testimonials list page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
 
     $this->actingAs($user)
         ->get('/admin/testimonials')
@@ -333,7 +337,7 @@ test('authenticated user can access testimonials list page', function () {
 });
 
 test('authenticated user can access landing page settings page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
 
     $this->actingAs($user)
         ->get('/admin/landing-page-settings')
@@ -341,7 +345,7 @@ test('authenticated user can access landing page settings page', function () {
 });
 
 test('authenticated user can access call to action settings page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
 
     $this->actingAs($user)
         ->get('/admin/call-to-action-settings')
@@ -349,7 +353,7 @@ test('authenticated user can access call to action settings page', function () {
 });
 
 test('authenticated user can access manage homepage page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
 
     $this->actingAs($user)
         ->get('/admin/manage-homepage')
@@ -357,7 +361,7 @@ test('authenticated user can access manage homepage page', function () {
 });
 
 test('authenticated user can access manage site settings page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'admin@example.com']);
 
     $this->actingAs($user)
         ->get('/admin/manage-site-settings')
