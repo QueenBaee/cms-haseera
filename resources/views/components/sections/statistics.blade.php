@@ -1,42 +1,26 @@
 @if($statistics->isNotEmpty())
-<section id="statistics" class="py-8 sm:py-10 border-y border-white/5 bg-[#141414]">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<section id="statistics" class="statistics-section relative overflow-hidden border-y border-white/5 py-10 sm:py-14">
+    <div class="statistics-ambient statistics-ambient-left" aria-hidden="true"></div>
+    <div class="statistics-ambient statistics-ambient-right" aria-hidden="true"></div>
 
-        {{--
-            Mobile:  grid 2×2
-            Desktop: grid 4 kolom satu baris
-        --}}
-        <div class="grid grid-cols-2 lg:grid-cols-4 rounded-2xl border border-white/[0.06] bg-[#181818] overflow-hidden">
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="statistics-panel grid grid-cols-1 gap-3 rounded-3xl p-3 sm:gap-4 sm:p-4 md:grid-cols-3">
             @foreach($statistics as $index => $stat)
-            @php
-                // Divider logic untuk grid 2×2 mobile / 4-col desktop
-                // Mobile: border-right pada kolom 1 (index genap), border-bottom pada baris 1 (index 0,1)
-                // Desktop: border-right pada semua kecuali terakhir
-                $borderClass = implode(' ', array_filter([
-                    // Vertical divider: selalu kecuali item terakhir di baris
-                    // Mobile: item 0,2 (kiri) → border-r; item 1,3 (kanan) → tidak
-                    // Desktop: semua kecuali last → border-r via lg:border-r + lg:last:border-r-0
-                    ($index % 2 === 0) ? 'border-r border-white/[0.06]' : '',
-                    // Horizontal divider: baris pertama mobile (index 0,1)
-                    ($index < 2) ? 'border-b border-white/[0.06]' : '',
-                    // Desktop override: semua punya border-r kecuali last
-                    'lg:border-b-0 lg:border-r lg:last:border-r-0',
-                ]));
-            @endphp
-            <div class="{{ $borderClass }} min-w-0 min-h-28 sm:min-h-32 px-3 py-6 sm:px-5 sm:py-7 flex flex-col items-center justify-center text-center group hover:bg-white/[0.03] transition-colors duration-200">
-                <div class="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-none mb-1 sm:mb-1.5"
+            <article class="statistics-card group flex min-h-40 min-w-0 flex-col items-center justify-center rounded-2xl px-5 py-8 text-center transition duration-300 hover:-translate-y-0.5 sm:min-h-44 sm:px-7">
+                <div class="statistics-value mb-3 text-4xl font-bold leading-none sm:text-5xl lg:text-6xl"
                      x-data="statCounter(@js($stat->value), {{ $index * 80 }})"
                      x-init="init()">
-                    @if($stat->prefix)<span class="text-purple-400">{{ $stat->prefix }}</span>@endif<span x-text="display">{{ $stat->value }}</span>@if($stat->suffix)<span class="text-purple-400">{{ $stat->suffix }}</span>@endif
+                    @if($stat->prefix)<span>{{ $stat->prefix }}</span>@endif<span x-text="display">{{ $stat->value }}</span>@if($stat->suffix)<span>{{ $stat->suffix }}</span>@endif
                 </div>
-                <div class="w-full min-w-0 text-[10px] sm:text-xs lg:text-sm text-[#A3A3A3] font-medium leading-snug break-words">{{ $stat->label }}</div>
+                <p class="w-full max-w-sm min-w-0 text-sm font-medium leading-relaxed text-white/70 sm:text-base">
+                    {{ $stat->label }}
+                </p>
                 @if($stat->description)
-                <div class="w-full min-w-0 text-[10px] sm:text-xs text-[#555] mt-0.5 break-words">{{ $stat->description }}</div>
+                <p class="mt-2 w-full min-w-0 text-xs leading-relaxed text-white/45">{{ $stat->description }}</p>
                 @endif
-            </div>
+            </article>
             @endforeach
         </div>
-
     </div>
 </section>
 @endif

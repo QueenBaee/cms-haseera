@@ -18,12 +18,13 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Log;
 
 class ManageHomepage extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    public string $view = 'filament.pages.manage-homepage';
+    protected string $view = 'filament.pages.manage-homepage';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Website';
 
@@ -40,11 +41,6 @@ class ManageHomepage extends Page implements HasForms
     public function mount(): void
     {
         $this->form->fill(SiteSetting::instance()->toArray());
-    }
-
-    public function getRecord(): SiteSetting
-    {
-        return SiteSetting::instance();
     }
 
     public function form(Schema $schema): Schema
@@ -97,8 +93,25 @@ class ManageHomepage extends Page implements HasForms
                             TextInput::make('cta_button_url')->label('URL Tombol'),
                         ])->columns(2),
 
+                        Tab::make('Kontak')->schema([
+                            TextInput::make('phone')->label('Telepon'),
+                            TextInput::make('whatsapp')->label('WhatsApp')->helperText('Format: 085691420774'),
+                            TextInput::make('email')->label('Email')->email(),
+                            Textarea::make('address')->label('Alamat')->rows(3)->columnSpanFull(),
+                            TextInput::make('google_maps_url')->label('URL Google Maps')->columnSpanFull(),
+                        ])->columns(2),
+
+                        Tab::make('Media Sosial')->schema([
+                            TextInput::make('instagram_url')->label('Instagram URL')->placeholder('https://instagram.com/username'),
+                            TextInput::make('tiktok_url')->label('TikTok URL')->placeholder('https://tiktok.com/@username'),
+                            TextInput::make('youtube_url')->label('YouTube URL')->placeholder('https://youtube.com/@channel'),
+                            TextInput::make('facebook_url')->label('Facebook URL'),
+                            TextInput::make('linkedin_url')->label('LinkedIn URL'),
+                        ])->columns(2),
+
                     ])->columnSpanFull(),
                 ])
+                    ->livewireSubmitHandler('save')
                     ->footer([
                         Actions::make([
                             Action::make('save')
@@ -109,14 +122,20 @@ class ManageHomepage extends Page implements HasForms
                         ]),
                     ]),
             ])
-            ->record($this->getRecord())
             ->statePath('data');
     }
 
     public function save(): void
     {
+        Log::info('ManageHomepage save() triggered', ['user_id' => auth()->id()]);
+
         $data = $this->form->getState();
+
+        Log::info('ManageHomepage form state', ['keys' => array_keys($data), 'hero_badge' => $data['hero_badge'] ?? 'MISSING']);
+
         SiteSetting::updateOrCreate(['id' => 1], $data);
+
+        Log::info('ManageHomepage save() completed', ['hero_badge' => SiteSetting::find(1)?->hero_badge]);
 
         Notification::make()->title('Homepage berhasil disimpan.')->success()->send();
     }

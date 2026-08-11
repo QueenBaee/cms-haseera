@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Models\AboutFeature;
 use App\Models\AboutSection;
+use App\Models\Brand;
 use App\Models\CallToActionSetting;
 use App\Models\CompanyStatistic;
 use App\Models\HeroSlide;
@@ -35,7 +36,9 @@ test('seeder is idempotent — running twice produces correct counts', function 
     expect(CallToActionSetting::count())->toBe(1);
     expect(NavigationItem::count())->toBe(5);
     expect(HeroSlide::count())->toBe(2);
-    expect(CompanyStatistic::count())->toBe(4);
+    expect(CompanyStatistic::active()->count())->toBe(3);
+    expect(CompanyStatistic::count())->toBe(3);
+    expect(CompanyStatistic::active()->ordered()->pluck('value')->all())->toBe(['50++', '20+', '2thn+']);
     expect(AboutSection::count())->toBe(1);
     expect(AboutFeature::count())->toBe(4);
     expect(Service::count())->toBe(4);
@@ -94,6 +97,47 @@ test('CompanyStatistic active scope filters inactive records', function () {
 
     expect(CompanyStatistic::active()->count())->toBe(1);
     expect(CompanyStatistic::active()->first()->label)->toBe('Active Stat');
+});
+
+test('homepage renders CMS statistics in order before brands', function () {
+    $this->seed(LandingPageSeeder::class);
+
+    Brand::create([
+        'name' => 'Test Brand',
+        'logo' => 'brands/test-brand.png',
+        'sort_order' => 1,
+        'is_active' => true,
+    ]);
+
+    $this->get('/')
+        ->assertSuccessful()
+        ->assertSeeInOrder([
+            'id="statistics"',
+            '50++',
+            'Proyek dan event sukses',
+            '20+',
+            'Dipercaya oleh perusahaan/instansi lokal &amp; internasional',
+            '2thn+',
+            'Pengalaman didalam industri',
+            'id="brands"',
+            'Mitra Kami',
+            'id="about"',
+        ], false)
+        ->assertDontSee('10+')
+        ->assertDontSee('150+')
+        ->assertDontSee('24/7');
+});
+
+test('homepage reflects CompanyStatistic CMS edits', function () {
+    $this->seed(LandingPageSeeder::class);
+
+    $statistic = CompanyStatistic::active()->ordered()->firstOrFail();
+    $statistic->update(['value' => '51++']);
+
+    $this->get('/')
+        ->assertSuccessful()
+        ->assertSee('51++')
+        ->assertDontSee('50++');
 });
 
 test('NavigationItem active scope filters inactive records', function () {

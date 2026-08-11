@@ -7,12 +7,19 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 
-    --color-purple-400: #a78bfa;
-    --color-purple-500: #8b5cf6;
-    --color-purple-600: #7c3aed;
-    --color-purple-900: #4c1d95;
-    --color-emerald-400: #34d399;
-    --color-emerald-500: #20c997;
+    /* ── Brand Colors ─────────────────────────────────────────────── */
+    --color-brand-purple-start: #9800EF;
+    --color-brand-purple-end:   #FF00E4;
+    --color-brand-green:        #B5FF41;
+    --color-brand-white:        #FFFFFF;
+    --color-brand-black:        #000000;
+
+    /* Tailwind color aliases */
+    --color-purple-400: #c084fc;
+    --color-purple-500: #9800EF;
+    --color-purple-600: #7a00bf;
+    --color-purple-900: #3b0066;
+    --color-brand-green-400: #B5FF41;
 }
 
 @layer base {
@@ -28,12 +35,12 @@
     }
 
     ::selection {
-        background-color: rgba(124, 58, 237, 0.4);
+        background-color: rgba(152, 0, 239, 0.35);
         color: #ffffff;
     }
 
     :focus-visible {
-        outline: 2px solid #8b5cf6;
+        outline: 2px solid #9800EF;
         outline-offset: 2px;
         border-radius: 4px;
     }
@@ -61,15 +68,84 @@
     }
 
     .glow-purple {
-        box-shadow: 0 0 40px rgba(124, 58, 237, 0.15);
+        box-shadow: 0 0 40px rgba(152, 0, 239, 0.18);
     }
 
     .glow-purple-sm {
-        box-shadow: 0 0 20px rgba(124, 58, 237, 0.1);
+        box-shadow: 0 0 20px rgba(152, 0, 239, 0.12);
+    }
+
+    .bg-brand-gradient {
+        background: linear-gradient(135deg, #9800EF 0%, #FF00E4 100%);
     }
 }
 
 @layer components {
+    .statistics-section {
+        background:
+            radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--color-brand-purple-start) 18%, transparent), transparent 48%),
+            var(--color-brand-black);
+    }
+
+    .statistics-ambient {
+        position: absolute;
+        width: 28rem;
+        height: 18rem;
+        border-radius: 9999px;
+        filter: blur(90px);
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    .statistics-ambient-left {
+        top: -10rem;
+        left: -8rem;
+        background: var(--color-brand-purple-start);
+    }
+
+    .statistics-ambient-right {
+        right: -8rem;
+        bottom: -10rem;
+        background: var(--color-brand-purple-end);
+    }
+
+    .statistics-panel {
+        border: 1px solid color-mix(in srgb, var(--color-brand-purple-end) 20%, transparent);
+        background: linear-gradient(
+            135deg,
+            color-mix(in srgb, var(--color-brand-purple-start) 13%, transparent),
+            rgba(10, 10, 10, 0.68) 48%,
+            color-mix(in srgb, var(--color-brand-purple-end) 10%, transparent)
+        );
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            0 24px 70px color-mix(in srgb, var(--color-brand-purple-start) 16%, transparent);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+    }
+
+    .statistics-card {
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+
+    .statistics-card:hover {
+        border-color: color-mix(in srgb, var(--color-brand-purple-end) 35%, transparent);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.1),
+            0 12px 32px color-mix(in srgb, var(--color-brand-purple-start) 14%, transparent);
+    }
+
+    .statistics-value {
+        color: #ffffff;
+        background: linear-gradient(135deg, #ffffff 28%, var(--color-brand-purple-start) 65%, var(--color-brand-purple-end));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
     /* ── Contact form inputs ─────────────────────────────────────────── */
     .contact-input {
         background-color: rgba(255, 255, 255, 0.04);
@@ -87,8 +163,8 @@
     }
 
     .contact-input:focus {
-        border-color: rgba(139, 92, 246, 0.6);
-        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+        border-color: rgba(152, 0, 239, 0.6);
+        box-shadow: 0 0 0 3px rgba(152, 0, 239, 0.12);
     }
 
     .contact-input:hover:not(:focus) {

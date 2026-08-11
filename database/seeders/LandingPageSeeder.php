@@ -27,19 +27,21 @@ class LandingPageSeeder extends Seeder
 
     public function run(): void
     {
-        // ── Site Settings (singleton) ─────────────────────────────────────────
+        // Site Settings (singleton)
         SiteSetting::updateOrCreate(['id' => 1], [
             'site_name' => 'Haseera',
             'site_tagline' => 'Creative Digital Agency',
             'company_description' => 'Kami adalah studio kreatif yang menghadirkan solusi digital premium — dari motion design, visual production, hingga pengalaman digital yang imersif.',
-            'phone' => '+62 812-3456-7890',
-            'whatsapp' => '+62 812-3456-7890',
-            'email' => 'hello@haseera.id',
+            'phone' => '085691420774',
+            'whatsapp' => '085691420774',
+            'email' => 'haseeradigitalcreative@gmail.com',
             'address' => 'Jl. Sudirman No. 123, Jakarta Selatan, DKI Jakarta 12190',
-            'instagram_url' => 'https://instagram.com/haseera',
-            'facebook_url' => 'https://facebook.com/haseera',
-            'youtube_url' => 'https://youtube.com/@haseera',
-            'linkedin_url' => 'https://linkedin.com/company/haseera',
+            'google_maps_url' => 'https://maps.app.goo.gl/YxLTqtZxuRSmWUEt6',
+            'instagram_url' => 'https://instagram.com/haseeradigitalcreative',
+            'facebook_url' => null,
+            'youtube_url' => null,
+            'linkedin_url' => null,
+            'tiktok_url' => null,
             'footer_text' => '© '.date('Y').' Haseera. All rights reserved.',
             'seo_title' => 'Haseera — Creative Digital Agency',
             'seo_description' => 'Studio kreatif untuk motion design, visual production, dan pengalaman digital yang imersif.',
@@ -68,14 +70,20 @@ class LandingPageSeeder extends Seeder
             'cta_button_url' => 'mailto:hello@haseera.id',
         ]);
 
-        // ── Legacy LandingPageSetting (singleton) ─────────────────────────────
+        // Legacy LandingPageSetting (singleton)
         LandingPageSetting::updateOrCreate(['id' => 1], [
             'site_name' => 'Haseera',
             'company_name' => 'PT Haseera Indonesia',
             'site_tagline' => 'Creative Digital Agency',
+            'primary_email' => 'haseeradigitalcreative@gmail.com',
+            'whatsapp' => '085691420774',
+            'google_maps_url' => 'https://maps.app.goo.gl/YxLTqtZxuRSmWUEt6',
+            'instagram_url' => 'https://instagram.com/haseeradigitalcreative',
+            'tiktok_url' => null,
+            'youtube_url' => null,
         ]);
 
-        // ── CallToActionSetting (singleton) ───────────────────────────────────
+        // CallToActionSetting (singleton)
         CallToActionSetting::updateOrCreate(['id' => 1], [
             'title' => 'Punya Ide Project? Mari Diskusi',
             'primary_button_text' => 'Hubungi Kami',
@@ -83,13 +91,13 @@ class LandingPageSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // ── Navigation items (5) ──────────────────────────────────────────────
+        // Navigation items (5)
         $navItems = [
-            ['label' => 'Beranda',    'url' => '#hero',         'navigation_location' => 'both',   'sort_order' => 1],
-            ['label' => 'Tentang',    'url' => '#about',        'navigation_location' => 'both',   'sort_order' => 2],
-            ['label' => 'Layanan',    'url' => '#services',     'navigation_location' => 'both',   'sort_order' => 3],
-            ['label' => 'Portofolio', 'url' => '#portfolio',    'navigation_location' => 'both',   'sort_order' => 4],
-            ['label' => 'Kontak',     'url' => '#contact',      'navigation_location' => 'footer', 'sort_order' => 5],
+            ['label' => 'Beranda',    'url' => '#hero',      'navigation_location' => 'both',   'sort_order' => 1],
+            ['label' => 'Tentang',    'url' => '#about',     'navigation_location' => 'both',   'sort_order' => 2],
+            ['label' => 'Layanan',    'url' => '#services',  'navigation_location' => 'both',   'sort_order' => 3],
+            ['label' => 'Portofolio', 'url' => '#portfolio', 'navigation_location' => 'both',   'sort_order' => 4],
+            ['label' => 'Kontak',     'url' => '#contact',   'navigation_location' => 'footer', 'sort_order' => 5],
         ];
         foreach ($navItems as $item) {
             NavigationItem::withTrashed()->updateOrCreate(
@@ -98,36 +106,50 @@ class LandingPageSeeder extends Seeder
             );
         }
 
-        // ── Hero slides (2) ───────────────────────────────────────────────────
+        // Hero slides (2)
         $heroSlides = [
-            ['title' => 'Solusi Digital untuk Bisnis Anda',  'sort_order' => 1, 'is_active' => true],
-            ['title' => 'Inovasi Tanpa Batas',               'sort_order' => 2, 'is_active' => true],
+            ['title' => 'Solusi Digital untuk Bisnis Anda', 'sort_order' => 1, 'is_active' => true],
+            ['title' => 'Inovasi Tanpa Batas',              'sort_order' => 2, 'is_active' => true],
         ];
         foreach ($heroSlides as $slide) {
             HeroSlide::withTrashed()->updateOrCreate(['title' => $slide['title']], $slide);
         }
 
-        // ── Company statistics (4) ────────────────────────────────────────────
+        // Company statistics (3)
         $statistics = [
-            ['value' => '10',  'suffix' => '+', 'label' => 'Years Experience',    'sort_order' => 1],
-            ['value' => '150', 'suffix' => '+', 'label' => 'Completed Projects',  'sort_order' => 2],
-            ['value' => '150', 'suffix' => '+', 'label' => 'Happy Clients',       'sort_order' => 3],
-            ['value' => '24/7', 'suffix' => '', 'label' => 'Support',             'sort_order' => 4],
+            ['value' => '50++', 'label' => 'Proyek dan event sukses', 'sort_order' => 1],
+            ['value' => '20+', 'label' => 'Dipercaya oleh perusahaan/instansi lokal & internasional', 'sort_order' => 2],
+            ['value' => '2thn+', 'label' => 'Pengalaman didalam industri', 'sort_order' => 3],
         ];
+
+        $activeStatisticIds = [];
+
         foreach ($statistics as $stat) {
-            CompanyStatistic::withTrashed()->updateOrCreate(
-                ['label' => $stat['label']],
-                array_merge($stat, ['is_active' => true])
+            $companyStatistic = CompanyStatistic::withTrashed()->updateOrCreate(
+                ['sort_order' => $stat['sort_order']],
+                array_merge($stat, [
+                    'prefix' => null,
+                    'suffix' => null,
+                    'description' => null,
+                    'is_active' => true,
+                    'deleted_at' => null,
+                ])
             );
+
+            $activeStatisticIds[] = $companyStatistic->id;
         }
 
-        // ── About benefits (3) ────────────────────────────────────────────────
+        CompanyStatistic::query()
+            ->whereNotIn('id', $activeStatisticIds)
+            ->delete();
+
+        // About benefits
         $benefits = [
-            ['title' => 'Kreativitas & Teknologi',          'sort_order' => 1],
-            ['title' => 'Tim Profesional & Berpengalaman',  'sort_order' => 2],
-            ['title' => 'Tepat Waktu & Efisien',            'sort_order' => 3],
-            ['title' => 'Hasil Berkualitas Premium',        'sort_order' => 4],
-            ['title' => 'Dukungan Penuh Pasca-Proyek',      'sort_order' => 5],
+            ['title' => 'Kreativitas & Teknologi',         'sort_order' => 1],
+            ['title' => 'Tim Profesional & Berpengalaman', 'sort_order' => 2],
+            ['title' => 'Tepat Waktu & Efisien',           'sort_order' => 3],
+            ['title' => 'Hasil Berkualitas Premium',       'sort_order' => 4],
+            ['title' => 'Dukungan Penuh Pasca-Proyek',     'sort_order' => 5],
         ];
         foreach ($benefits as $benefit) {
             AboutBenefit::updateOrCreate(
@@ -136,7 +158,7 @@ class LandingPageSeeder extends Seeder
             );
         }
 
-        // ── About section (1) with features (4) ──────────────────────────────
+        // About section (1) with features (4)
         $about = AboutSection::withTrashed()->updateOrCreate(
             ['title' => 'Tentang Haseera'],
             [
@@ -149,10 +171,10 @@ class LandingPageSeeder extends Seeder
             ]
         );
         $features = [
-            ['title' => 'Tim Berpengalaman',  'sort_order' => 1],
-            ['title' => 'Teknologi Modern',   'sort_order' => 2],
-            ['title' => 'Dukungan 24/7',      'sort_order' => 3],
-            ['title' => 'Harga Terjangkau',   'sort_order' => 4],
+            ['title' => 'Tim Berpengalaman', 'sort_order' => 1],
+            ['title' => 'Teknologi Modern',  'sort_order' => 2],
+            ['title' => 'Dukungan 24/7',     'sort_order' => 3],
+            ['title' => 'Harga Terjangkau',  'sort_order' => 4],
         ];
         foreach ($features as $feature) {
             AboutFeature::updateOrCreate(
@@ -161,45 +183,60 @@ class LandingPageSeeder extends Seeder
             );
         }
 
-        // ── Services (4) ──────────────────────────────────────────────────────
+        // Services (3)
         $services = [
             [
-                'title' => 'Motion Design',
-                'slug' => 'motion-design',
-                'short_description' => 'Animasi dan motion graphics yang memukau untuk brand Anda.',
+                'title' => 'Graphic Design',
+                'slug' => 'graphic-design',
+                'short_description' => 'Solusi desain grafis profesional untuk kebutuhan visual brand Anda.',
+                'items' => [
+                    ['label' => '2D & 3D Design'],
+                    ['label' => 'Interior & Eksterior Design'],
+                    ['label' => 'Stage, Booth Exhibition Design'],
+                ],
                 'sort_order' => 1,
+                'is_featured' => false,
             ],
             [
-                'title' => 'Visual Production',
-                'slug' => 'visual-production',
-                'short_description' => 'Produksi konten visual berkualitas tinggi untuk semua platform.',
+                'title' => 'Visual Event',
+                'slug' => 'visual-event',
+                'short_description' => 'Konten visual imersif untuk event dan pertunjukan yang memukau.',
+                'items' => [
+                    ['label' => 'Bumper Event Animation'],
+                    ['label' => 'Motion Graphic Design'],
+                    ['label' => 'Wedding Background Animation'],
+                    ['label' => 'LED Visual Content'],
+                ],
                 'sort_order' => 2,
+                'is_featured' => true,
             ],
             [
-                'title' => 'Creative Design',
-                'slug' => 'creative-design',
-                'short_description' => 'Desain kreatif yang mencerminkan identitas dan nilai brand Anda.',
+                'title' => 'Video Production',
+                'slug' => 'video-production',
+                'short_description' => 'Produksi video berkualitas tinggi dari konsep hingga hasil akhir.',
+                'items' => [
+                    ['label' => 'Editing'],
+                    ['label' => 'Company Profile'],
+                    ['label' => 'Event Teaser'],
+                    ['label' => 'Wedding Teaser'],
+                    ['label' => 'Executive Spotlight'],
+                ],
                 'sort_order' => 3,
-            ],
-            [
-                'title' => 'Immersive Experience',
-                'slug' => 'immersive-experience',
-                'short_description' => 'Pengalaman digital imersif yang meninggalkan kesan mendalam.',
-                'sort_order' => 4,
+                'is_featured' => false,
             ],
         ];
         foreach ($services as $service) {
             Service::withTrashed()->updateOrCreate(
                 ['title' => $service['title']],
-                array_merge($service, ['is_active' => true, 'is_featured' => false])
+                array_merge($service, ['is_active' => true])
             );
         }
 
-        // ── Portfolio categories (3) ──────────────────────────────────────────
+        // Portfolio categories (3)
         $categories = [
-            ['name' => 'Motion Design',      'slug' => 'motion-design',     'sort_order' => 1],
-            ['name' => 'Visual Production',  'slug' => 'visual-production', 'sort_order' => 2],
-            ['name' => 'Branding',           'slug' => 'branding',          'sort_order' => 3],
+            ['name' => 'Motion Design',     'slug' => 'motion-design',     'sort_order' => 1],
+            ['name' => 'Visual Production', 'slug' => 'visual-production', 'sort_order' => 2],
+            ['name' => 'Branding',          'slug' => 'branding',          'sort_order' => 3],
         ];
         $categoryIds = [];
         foreach ($categories as $cat) {
@@ -210,14 +247,14 @@ class LandingPageSeeder extends Seeder
             $categoryIds[$cat['name']] = $category->id;
         }
 
-        // ── Portfolios (6) ────────────────────────────────────────────────────
+        // Portfolios (6)
         $portfolios = [
-            ['title' => 'Brand Film — Startup Fintech',       'slug' => 'brand-film-startup-fintech',       'category' => 'Motion Design',     'client_name' => 'FinPay Indonesia',   'sort_order' => 1],
-            ['title' => 'Campaign Visual — Fashion Brand',    'slug' => 'campaign-visual-fashion-brand',    'category' => 'Visual Production',  'client_name' => 'Nusantara Wear',     'sort_order' => 2],
-            ['title' => 'Identitas Visual — Tech Company',    'slug' => 'identitas-visual-tech-company',    'category' => 'Branding',           'client_name' => 'TechNova Labs',      'sort_order' => 3],
-            ['title' => 'Motion Reel — Event Organizer',      'slug' => 'motion-reel-event-organizer',      'category' => 'Motion Design',     'client_name' => 'Spekta Events',      'sort_order' => 4],
-            ['title' => 'Product Launch — FMCG Brand',        'slug' => 'product-launch-fmcg-brand',        'category' => 'Visual Production',  'client_name' => 'Segar Nusantara',    'sort_order' => 5],
-            ['title' => 'Rebranding — Hospitality Group',     'slug' => 'rebranding-hospitality-group',     'category' => 'Branding',           'client_name' => 'Archipelago Hotels', 'sort_order' => 6],
+            ['title' => 'Brand Film — Startup Fintech',    'slug' => 'brand-film-startup-fintech',    'category' => 'Motion Design',    'client_name' => 'FinPay Indonesia',   'sort_order' => 1],
+            ['title' => 'Campaign Visual — Fashion Brand', 'slug' => 'campaign-visual-fashion-brand', 'category' => 'Visual Production', 'client_name' => 'Nusantara Wear',     'sort_order' => 2],
+            ['title' => 'Identitas Visual — Tech Company', 'slug' => 'identitas-visual-tech-company', 'category' => 'Branding',          'client_name' => 'TechNova Labs',      'sort_order' => 3],
+            ['title' => 'Motion Reel — Event Organizer',   'slug' => 'motion-reel-event-organizer',   'category' => 'Motion Design',    'client_name' => 'Spekta Events',      'sort_order' => 4],
+            ['title' => 'Product Launch — FMCG Brand',     'slug' => 'product-launch-fmcg-brand',     'category' => 'Visual Production', 'client_name' => 'Segar Nusantara',    'sort_order' => 5],
+            ['title' => 'Rebranding — Hospitality Group',  'slug' => 'rebranding-hospitality-group',  'category' => 'Branding',          'client_name' => 'Archipelago Hotels', 'sort_order' => 6],
         ];
         foreach ($portfolios as $portfolio) {
             Portfolio::withTrashed()->updateOrCreate(
@@ -235,12 +272,12 @@ class LandingPageSeeder extends Seeder
             );
         }
 
-        // ── Testimonials (4) ──────────────────────────────────────────────────
+        // Testimonials (4)
         $testimonials = [
-            ['name' => 'Rizky Pratama',   'position' => 'CEO',              'company' => 'FinPay Indonesia',   'content' => 'Haseera benar-benar memahami visi kami. Hasil kerjanya melampaui ekspektasi dan timeline selalu tepat.', 'rating' => 5, 'sort_order' => 1],
-            ['name' => 'Sari Dewi',       'position' => 'Brand Manager',    'company' => 'Nusantara Wear',     'content' => 'Tim yang sangat kreatif dan profesional. Konten visual yang mereka buat viral di semua platform kami.', 'rating' => 5, 'sort_order' => 2],
-            ['name' => 'Budi Santoso',    'position' => 'Founder',          'company' => 'TechNova Labs',      'content' => 'Identitas visual baru kami mendapat respons luar biasa dari investor dan pelanggan. Terima kasih Haseera!', 'rating' => 5, 'sort_order' => 3],
-            ['name' => 'Anisa Rahma',     'position' => 'Marketing Director', 'company' => 'Spekta Events',    'content' => 'Kolaborasi yang menyenangkan dan hasilnya selalu premium. Kami akan terus bekerja sama dengan Haseera.', 'rating' => 5, 'sort_order' => 4],
+            ['name' => 'Rizky Pratama', 'position' => 'CEO',               'company' => 'FinPay Indonesia', 'content' => 'Haseera benar-benar memahami visi kami. Hasil kerjanya melampaui ekspektasi dan timeline selalu tepat.', 'rating' => 5, 'sort_order' => 1],
+            ['name' => 'Sari Dewi',     'position' => 'Brand Manager',     'company' => 'Nusantara Wear',   'content' => 'Tim yang sangat kreatif dan profesional. Konten visual yang mereka buat viral di semua platform kami.', 'rating' => 5, 'sort_order' => 2],
+            ['name' => 'Budi Santoso',  'position' => 'Founder',           'company' => 'TechNova Labs',    'content' => 'Identitas visual baru kami mendapat respons luar biasa dari investor dan pelanggan. Terima kasih Haseera!', 'rating' => 5, 'sort_order' => 3],
+            ['name' => 'Anisa Rahma',   'position' => 'Marketing Director', 'company' => 'Spekta Events',   'content' => 'Kolaborasi yang menyenangkan dan hasilnya selalu premium. Kami akan terus bekerja sama dengan Haseera.', 'rating' => 5, 'sort_order' => 4],
         ];
         foreach ($testimonials as $testimonial) {
             Testimonial::withTrashed()->updateOrCreate(
@@ -249,12 +286,12 @@ class LandingPageSeeder extends Seeder
             );
         }
 
-        // ── Social media links (4) ────────────────────────────────────────────
+        // Social media links (4)
         $socialLinks = [
-            ['platform' => 'Instagram', 'label' => 'Instagram', 'url' => 'https://instagram.com/haseera',              'sort_order' => 1],
-            ['platform' => 'Facebook',  'label' => 'Facebook',  'url' => 'https://facebook.com/haseera',               'sort_order' => 2],
-            ['platform' => 'YouTube',   'label' => 'YouTube',   'url' => 'https://youtube.com/@haseera',               'sort_order' => 3],
-            ['platform' => 'LinkedIn',  'label' => 'LinkedIn',  'url' => 'https://linkedin.com/company/haseera',       'sort_order' => 4],
+            ['platform' => 'Instagram', 'label' => 'Instagram', 'url' => 'https://instagram.com/haseera',        'sort_order' => 1],
+            ['platform' => 'Facebook',  'label' => 'Facebook',  'url' => 'https://facebook.com/haseera',         'sort_order' => 2],
+            ['platform' => 'YouTube',   'label' => 'YouTube',   'url' => 'https://youtube.com/@haseera',         'sort_order' => 3],
+            ['platform' => 'LinkedIn',  'label' => 'LinkedIn',  'url' => 'https://linkedin.com/company/haseera', 'sort_order' => 4],
         ];
         foreach ($socialLinks as $link) {
             SocialMediaLink::withTrashed()->updateOrCreate(

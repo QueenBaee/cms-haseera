@@ -82,9 +82,16 @@ class LandingPageSettings extends Page implements HasForms
                             TextInput::make('primary_email')->label('Email Utama')->email(),
                             TextInput::make('secondary_email')->label('Email Sekunder')->email(),
                             TextInput::make('phone')->label('Telepon'),
-                            TextInput::make('whatsapp')->label('WhatsApp'),
+                            TextInput::make('whatsapp')->label('WhatsApp')->helperText('Format: 085691420774 atau 6285691420774'),
                             Textarea::make('address')->label('Alamat')->columnSpanFull(),
                             TextInput::make('google_maps_url')->label('URL Google Maps')->url()->columnSpanFull(),
+                        ]),
+                    ]),
+                    Tab::make('Media Sosial')->schema([
+                        Grid::make(2)->schema([
+                            TextInput::make('instagram_url')->label('Instagram URL')->url()->placeholder('https://instagram.com/username'),
+                            TextInput::make('tiktok_url')->label('TikTok URL')->url()->placeholder('https://tiktok.com/@username'),
+                            TextInput::make('youtube_url')->label('YouTube URL')->url()->placeholder('https://youtube.com/@channel'),
                         ]),
                     ]),
                     Tab::make('Judul Section')->schema([
@@ -106,6 +113,7 @@ class LandingPageSettings extends Page implements HasForms
                     ]),
                 ])->columnSpanFull(),
             ])
+                ->livewireSubmitHandler('save')
                 ->footer([
                     Actions::make([
                         Action::make('save')

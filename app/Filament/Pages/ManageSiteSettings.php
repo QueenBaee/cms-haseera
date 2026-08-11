@@ -66,17 +66,18 @@ class ManageSiteSettings extends Page implements HasForms
                         Tab::make('Perusahaan')->schema([
                             Textarea::make('company_description')->label('Deskripsi Perusahaan')->rows(4)->columnSpanFull(),
                             TextInput::make('phone')->label('Telepon'),
-                            TextInput::make('whatsapp')->label('WhatsApp'),
+                            TextInput::make('whatsapp')->label('WhatsApp')->helperText('Format: 085691420774'),
                             TextInput::make('email')->label('Email')->email(),
                             Textarea::make('address')->label('Alamat')->rows(3)->columnSpanFull(),
+                            TextInput::make('google_maps_url')->label('URL Google Maps')->url()->columnSpanFull(),
                         ])->columns(2),
 
                         Tab::make('Media Sosial')->schema([
-                            TextInput::make('instagram_url')->label('Instagram URL')->url(),
+                            TextInput::make('instagram_url')->label('Instagram URL')->url()->placeholder('https://instagram.com/username'),
+                            TextInput::make('tiktok_url')->label('TikTok URL')->url()->placeholder('https://tiktok.com/@username'),
+                            TextInput::make('youtube_url')->label('YouTube URL')->url()->placeholder('https://youtube.com/@channel'),
                             TextInput::make('facebook_url')->label('Facebook URL')->url(),
-                            TextInput::make('youtube_url')->label('YouTube URL')->url(),
                             TextInput::make('linkedin_url')->label('LinkedIn URL')->url(),
-                            TextInput::make('tiktok_url')->label('TikTok URL')->url(),
                         ])->columns(2),
 
                         Tab::make('SEO')->schema([
@@ -103,6 +104,7 @@ class ManageSiteSettings extends Page implements HasForms
 
                     ])->columnSpanFull(),
                 ])
+                    ->livewireSubmitHandler('save')
                     ->footer([
                         Actions::make([
                             Action::make('save')
@@ -113,7 +115,6 @@ class ManageSiteSettings extends Page implements HasForms
                         ]),
                     ]),
             ])
-            ->record($this->getRecord())
             ->statePath('data');
     }
 

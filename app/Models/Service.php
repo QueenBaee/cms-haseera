@@ -24,6 +24,7 @@ class Service extends Model
         'eyebrow',
         'short_description',
         'description',
+        'items',
         'icon',
         'image',
         'background_image',
@@ -39,6 +40,7 @@ class Service extends Model
     ];
 
     protected $casts = [
+        'items' => 'array',
         'open_new_tab' => 'boolean',
         'is_featured' => 'boolean',
         'is_active' => 'boolean',

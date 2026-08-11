@@ -12,7 +12,7 @@ class SiteSetting extends Model
 
     protected $fillable = [
         'site_name', 'site_tagline', 'logo', 'logo_dark', 'favicon',
-        'company_description', 'phone', 'whatsapp', 'email', 'address',
+        'company_description', 'phone', 'whatsapp', 'email', 'address', 'google_maps_url',
         'instagram_url', 'facebook_url', 'youtube_url', 'linkedin_url', 'tiktok_url',
         'footer_text',
         'seo_title', 'seo_description', 'seo_keywords', 'og_image',

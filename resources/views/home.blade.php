@@ -40,10 +40,10 @@
     <main>
         @include('components.sections.hero', ['settings' => $settings])
         @include('components.sections.statistics', ['statistics' => $statistics])
+        @include('components.sections.brands', ['brands' => $brands])
         @include('components.sections.about', ['settings' => $settings, 'benefits' => $benefits])
         @include('components.sections.services', ['settings' => $settings, 'services' => $services])
         @include('components.sections.portfolio', ['settings' => $settings, 'featuredPortfolios' => $featuredPortfolios, 'portfolios' => $portfolios, 'hasMorePortfolios' => $hasMorePortfolios])
-        @include('components.sections.brands', ['brands' => $brands])
         @include('components.sections.testimonials', ['settings' => $settings, 'testimonials' => $testimonials])
     </main>
 
