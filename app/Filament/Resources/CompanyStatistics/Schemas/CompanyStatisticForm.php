@@ -14,6 +14,6 @@ class CompanyStatisticForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            TextInput::make('value')->label('Nilai')->required(), TextInput::make('prefix')->label('Awalan'), TextInput::make('suffix')->label('Akhiran'), TextInput::make('label')->label('Label')->required(), Textarea::make('description')->label('Deskripsi')->columnSpanFull(), Select::make('icon')->label('Ikon')->options(HeroiconOptions::all())->searchable()->preload()->native(false)->placeholder('Pilih ikon (opsional)'), TextInput::make('sort_order')->label('Urutan')->numeric()->required()->default(0), Toggle::make('is_active')->label('Aktif')->default(true), ]);
+            TextInput::make('value')->label('Nilai')->required(), TextInput::make('prefix')->label('Awalan'), TextInput::make('suffix')->label('Akhiran'), TextInput::make('label')->label('Label'), Textarea::make('description')->label('Deskripsi')->columnSpanFull(), Select::make('icon')->label('Ikon')->options(HeroiconOptions::all())->searchable()->preload()->native(false)->placeholder('Pilih ikon (opsional)'), TextInput::make('sort_order')->label('Urutan')->numeric()->required()->default(0), Toggle::make('is_active')->label('Aktif')->default(true), ]);
     }
 }

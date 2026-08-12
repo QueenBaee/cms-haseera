@@ -15,9 +15,11 @@
                      x-init="init()">
                     @if($stat->prefix)<span>{{ $stat->prefix }}</span>@endif<span x-text="display">{{ $stat->value }}</span>@if($stat->suffix)<span>{{ $stat->suffix }}</span>@endif
                 </div>
+                @if($stat->label)
                 <p class="w-full max-w-sm min-w-0 text-sm font-medium leading-relaxed text-white/70 sm:text-base">
                     {{ $stat->label }}
                 </p>
+                @endif
                 @if($stat->description)
                 <p class="mt-2 w-full min-w-0 text-xs leading-relaxed text-white/45">{{ $stat->description }}</p>
                 @endif
