@@ -47,7 +47,7 @@
                 @endforeach
 
                 <a href="{{ route('contact.index') }}"
-                   class="ml-4 px-5 py-2 text-sm font-semibold rounded-lg bg-[#20C997] text-[#111111] hover:bg-[#1aad82] transition-colors duration-200">
+                   class="ml-4 px-5 py-2 text-sm font-semibold rounded-lg bg-[#b5ff41] text-[#111111] hover:brightness-105 transition-all duration-200">
                     Hubungi Kami
                 </a>
             </nav>
@@ -89,7 +89,7 @@
             @endforeach
             <a href="{{ route('contact.index') }}"
                @click="open = false"
-               class="mt-2 px-4 py-3 text-sm font-semibold text-center rounded-lg bg-[#20C997] text-[#111111] hover:bg-[#1aad82] transition-colors">
+               class="mt-2 px-4 py-3 text-sm font-semibold text-center rounded-lg bg-[#b5ff41] text-[#111111] hover:brightness-105 transition-all duration-200">
                 Hubungi Kami
             </a>
         </nav>

@@ -39,8 +39,11 @@
 
     <main>
         @include('components.sections.hero', ['settings' => $settings])
-        @include('components.sections.statistics', ['statistics' => $statistics])
-        @include('components.sections.brands', ['brands' => $brands])
+        {{-- Stats + Brands share one gradient background --}}
+        <div class="stats-brands-wrapper">
+            @include('components.sections.statistics', ['statistics' => $statistics])
+            @include('components.sections.brands', ['brands' => $brands])
+        </div>
         @include('components.sections.about', ['settings' => $settings, 'benefits' => $benefits])
         @include('components.sections.services', ['settings' => $settings, 'services' => $services])
         @include('components.sections.portfolio', ['settings' => $settings, 'featuredPortfolios' => $featuredPortfolios, 'portfolios' => $portfolios, 'hasMorePortfolios' => $hasMorePortfolios])

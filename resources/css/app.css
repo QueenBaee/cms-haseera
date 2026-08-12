@@ -81,10 +81,38 @@
 }
 
 @layer components {
-    .statistics-section {
+    /* ── Stats + Brands shared gradient wrapper ───────────────────── */
+    .stats-brands-wrapper {
+        position: relative;
+        overflow: hidden;
         background:
-            radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--color-brand-purple-start) 18%, transparent), transparent 48%),
-            var(--color-brand-black);
+            radial-gradient(
+                ellipse 80% 80% at 50% 28%,
+                rgba(152, 0, 239, 0.42) 0%,
+                rgba(152, 0, 239, 0.24) 38%,
+                rgba(100, 0, 150, 0.14) 62%,
+                rgba(0, 0, 0, 0) 92%
+            ),
+            linear-gradient(
+                180deg,
+                #08000d 0%,
+                #100018 30%,
+                #160020 58%,
+                #0b000f 82%,
+                #000000 100%
+            );
+    }
+
+    .statistics-section {
+        position: relative;
+        background: transparent !important;
+        background-color: transparent !important;
+    }
+
+    #brands {
+        position: relative;
+        background: transparent !important;
+        background-color: transparent !important;
     }
 
     .statistics-ambient {
@@ -146,6 +174,53 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
+    /* ── Services CTA button ──────────────────────────────────────────── */
+    .services-cta-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+
+        width: 330px;
+        min-height: 58px;
+        padding: 0 28px;
+
+        background: #b5ff41;
+        color: #111111;
+
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1;
+        text-decoration: none;
+        white-space: nowrap;
+
+        border: none;
+        border-radius: 14px;
+
+        box-shadow: 0 8px 30px rgba(181, 255, 65, 0.18);
+        transition: filter 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+        cursor: pointer;
+    }
+
+    .services-cta-arrow {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        transition: transform 0.25s ease;
+    }
+
+    .services-cta-btn:hover .services-cta-arrow {
+        transform: translateX(4px);
+    }
+
+    @media (max-width: 400px) {
+        .services-cta-btn {
+            width: calc(100% - 32px);
+            max-width: 340px;
+            justify-content: center;
+        }
+    }
+
     /* ── Contact form inputs ─────────────────────────────────────────── */
     .contact-input {
         background-color: rgba(255, 255, 255, 0.04);
@@ -203,14 +278,7 @@
     .brand-card {
         width: 210px;
         height: 100px;
-    }
-
-    /* Inner logo plate */
-    .brand-logo-plate {
-        width: 170px;
-        height: 70px;
-        padding: 10px 14px;
-        border-radius: 10px;
+        padding: 0 20px;
     }
 
     /* Logo image: clipped, no overflow */
@@ -224,12 +292,7 @@
         .brand-card {
             width: 160px;
             height: 88px;
-        }
-
-        .brand-logo-plate {
-            width: 132px;
-            height: 64px;
-            padding: 8px 10px;
+            padding: 0 16px;
         }
 
         .brand-logo-img {

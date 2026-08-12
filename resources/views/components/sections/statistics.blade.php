@@ -1,7 +1,5 @@
 @if($statistics->isNotEmpty())
-<section id="statistics" class="statistics-section relative overflow-hidden border-y border-white/5 py-10 sm:py-14">
-    <div class="statistics-ambient statistics-ambient-left" aria-hidden="true"></div>
-    <div class="statistics-ambient statistics-ambient-right" aria-hidden="true"></div>
+<section id="statistics" class="statistics-section relative pt-10 sm:pt-14 pb-14 sm:pb-16">
 
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="statistics-panel grid grid-cols-1 gap-3 rounded-3xl p-3 sm:gap-4 sm:p-4 md:grid-cols-3">

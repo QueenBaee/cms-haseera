@@ -1,8 +1,5 @@
 @if($brands->isNotEmpty())
-<section id="brands" class="py-12 sm:py-14 bg-[#0e0e0e] relative overflow-hidden">
-
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[160px] opacity-[0.05] pointer-events-none" aria-hidden="true"
-         style="background: radial-gradient(ellipse at center, #7C3AED 0%, transparent 70%);"></div>
+<section id="brands" class="py-12 sm:py-14 relative">
 
     {{-- Heading --}}
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center mb-8">
