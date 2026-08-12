@@ -189,7 +189,8 @@
 
                             <form method="POST" action="{{ route('contact.store') }}"
                                   x-data="{ submitting: false }"
-                                  @submit="submitting = true">
+                                  @submit="submitting = true"
+                                  id="contact-form-el">
                                 @csrf
 
                                 {{-- Honeypot --}}
@@ -293,6 +294,77 @@
     </main>
 
     @include('components.sections.footer', ['settings' => $settings, 'navItems' => $navItems])
+
+    {{-- ── VALIDATION ERROR MODAL ──────────────────────────────────────── --}}
+    @if($errors->any())
+    <div x-data="{ open: true }"
+         x-show="open"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @keydown.escape.window="open = false"
+         class="fixed inset-0 z-[9999] flex items-center justify-center"
+         style="padding: 16px; background: rgba(0,0,0,0.65); backdrop-filter: blur(3px);">
+
+        <div x-show="open"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95"
+             style="width: calc(100% - 32px); max-width: 480px; background: rgba(18,10,30,0.97); border: 1px solid rgba(152,0,239,0.40); border-radius: 20px; padding: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 32px rgba(152,0,239,0.10);">
+
+            {{-- Header: title + close --}}
+            <div class="flex items-start justify-between gap-3 mb-4">
+                <div class="flex items-center gap-3">
+                    <div style="width:36px; height:36px; border-radius:10px; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.28); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <svg style="width:18px;height:18px;color:#f87171;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 style="font-size:17px; font-weight:700; color:#fff; line-height:1.3;">Form Belum Lengkap</h3>
+                        <p style="font-size:13px; color:#a3a3a3; margin-top:2px;">Mohon periksa kembali data yang Anda masukkan.</p>
+                    </div>
+                </div>
+                <button @click="open = false"
+                        style="color:#666; padding:4px; border-radius:6px; line-height:1; flex-shrink:0;"
+                        class="hover:text-white transition-colors">
+                    <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            {{-- Divider --}}
+            <div style="height:1px; background:rgba(255,255,255,0.06); margin-bottom:16px;"></div>
+
+            {{-- Error list --}}
+            <ul style="margin-bottom:20px; display:flex; flex-direction:column; gap:8px;">
+                @foreach($errors->all() as $error)
+                <li style="display:flex; align-items:flex-start; gap:10px; font-size:13.5px; color:#d4d4d4;">
+                    <span style="margin-top:6px; width:6px; height:6px; border-radius:50%; background:#f87171; flex-shrink:0;"></span>
+                    {{ $error }}
+                </li>
+                @endforeach
+            </ul>
+
+            {{-- Footer: button kanan --}}
+            <div style="display:flex; justify-content:flex-end;">
+                <button @click="open = false; $nextTick(() => { const el = document.querySelector('#contact-form-el input.border-red-500\/60, #contact-form-el textarea.border-red-500\/60'); if(el) el.focus(); })"
+                        style="background:#b5ff41; color:#111111; font-weight:600; font-size:13.5px; padding:0 22px; height:42px; border-radius:11px; transition:filter 0.15s, transform 0.15s;"
+                        class="hover:brightness-105 hover:scale-[1.02]">
+                    Periksa Kembali
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
 
 </body>
 </html>
