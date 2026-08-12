@@ -6,6 +6,7 @@ namespace App\Filament\Pages;
 
 use App\Models\SiteSetting;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -71,7 +72,13 @@ class ManageHomepage extends Page implements HasForms
                         Tab::make('Layanan')->schema([
                             TextInput::make('services_eyebrow')->label('Eyebrow'),
                             TextInput::make('services_title')->label('Judul Seksi'),
-                            Textarea::make('services_description')->label('Deskripsi')->rows(3),
+                            Textarea::make('services_description')->label('Deskripsi')->rows(3)->columnSpanFull(),
+                            Select::make('services_columns')
+                                ->label('Jumlah Card per Baris (Desktop)')
+                                ->options([2 => '2 Kolom', 3 => '3 Kolom', 4 => '4 Kolom'])
+                                ->default(4)
+                                ->selectablePlaceholder(false)
+                                ->helperText('Menentukan berapa card layanan yang tampil sejajar pada desktop.'),
                         ])->columns(2),
 
                         Tab::make('Proyek')->schema([

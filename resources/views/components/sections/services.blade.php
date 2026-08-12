@@ -31,14 +31,15 @@
 
         {{-- Cards grid — items-stretch memastikan semua card sama tinggi --}}
         @if($services->isNotEmpty())
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-4 items-stretch">
+        @php $cols = in_array((int)($settings->services_columns ?? 4), [2,3,4]) ? (int)$settings->services_columns : 4; @endphp
+        <div class="services-grid" style="--services-cols: {{ $cols }}">
             @foreach($services as $service)
 
             @php $isFeatured = (bool) $service->is_featured; @endphp
 
             @if($isFeatured)
             {{-- ── FEATURED CARD — Visual Event ── --}}
-            <article class="group relative flex flex-col h-full rounded-[28px] p-7 sm:p-8 overflow-hidden
+            <article class="group relative flex flex-col h-full rounded-[28px] p-5 sm:p-6 overflow-hidden
                             transition-all duration-300 hover:-translate-y-1.5"
                      style="
                          background: linear-gradient(145deg,
@@ -110,7 +111,7 @@
 
             @else
             {{-- ── NORMAL GLASS CARD ── --}}
-            <article class="group relative flex flex-col h-full rounded-[28px] p-7 sm:p-8 overflow-hidden
+            <article class="group relative flex flex-col h-full rounded-[28px] p-5 sm:p-6 overflow-hidden
                             transition-all duration-300 hover:-translate-y-1.5"
                      style="
                          background: linear-gradient(145deg,

@@ -20,7 +20,7 @@ class SiteSetting extends Model
         'hero_primary_button_text', 'hero_primary_button_url',
         'hero_secondary_button_text', 'hero_secondary_button_url',
         'about_eyebrow', 'about_title', 'about_description',
-        'services_eyebrow', 'services_title', 'services_description',
+        'services_eyebrow', 'services_title', 'services_description', 'services_columns',
         'projects_eyebrow', 'projects_title', 'projects_description',
         'testimonials_eyebrow', 'testimonials_title', 'testimonials_description',
         'cta_title', 'cta_description', 'cta_button_text', 'cta_button_url',
