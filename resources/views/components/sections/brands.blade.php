@@ -1,5 +1,5 @@
 @if($brands->isNotEmpty())
-<section id="brands" class="py-12 sm:py-14 relative">
+<section id="brands" class="pt-6 pb-12 sm:pt-8 sm:pb-14 relative">
 
     {{-- Heading --}}
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center mb-8">

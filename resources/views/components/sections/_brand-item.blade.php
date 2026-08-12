@@ -14,15 +14,15 @@
     @endif
     class="brand-card flex-none flex items-center justify-center rounded-[28px] transition-all duration-300 hover:-translate-y-1.5 {{ $brand->website_url ? 'cursor-pointer' : '' }}"
     style="
-        background: linear-gradient(145deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.025) 50%, rgba(139,92,246,0.04) 100%);
-        border: 1px solid rgba(255,255,255,0.09);
+        background: linear-gradient(145deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.06) 50%, rgba(139,92,246,0.07) 100%);
+        border: 1px solid rgba(255,255,255,0.13);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        box-shadow: 0 0 0 1px rgba(255,255,255,0.04) inset, 0 8px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07);
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10);
         transition: border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
     "
-    onmouseenter="this.style.borderColor='rgba(139,92,246,0.22)'; this.style.boxShadow='0 0 0 1px rgba(255,255,255,0.04) inset, 0 12px 56px rgba(0,0,0,0.50), 0 0 32px rgba(109,40,217,0.10), inset 0 1px 0 rgba(255,255,255,0.07)';"
-    onmouseleave="this.style.borderColor='rgba(255,255,255,0.09)'; this.style.boxShadow='0 0 0 1px rgba(255,255,255,0.04) inset, 0 8px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07)';"
+    onmouseenter="this.style.borderColor='rgba(139,92,246,0.30)'; this.style.boxShadow='0 0 0 1px rgba(255,255,255,0.06) inset, 0 14px 40px rgba(0,0,0,0.40), 0 0 28px rgba(109,40,217,0.14), inset 0 1px 0 rgba(255,255,255,0.10)';"
+    onmouseleave="this.style.borderColor='rgba(255,255,255,0.13)'; this.style.boxShadow='0 0 0 1px rgba(255,255,255,0.05) inset, 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10)';"
 >
     @if($logoUrl)
         <img
