@@ -27,9 +27,11 @@ class AdminGoogleAllowlist
      */
     private static function emails(): array
     {
+        $emails = array_map('trim', explode(',', (string) config('haseera.admin_google_emails', '')));
+
         return array_values(array_unique(array_filter(array_map(
             self::normalize(...),
-            explode(',', (string) config('haseera.admin_google_emails', '')),
+            $emails,
         ))));
     }
 }

@@ -9,6 +9,8 @@ use Filament\Notifications\Notification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as SocialiteUser;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
@@ -48,8 +50,18 @@ class GoogleController extends Controller
             ->whereRaw('LOWER(email) = ?', [$email])
             ->first();
 
-        if (($user === null) || (! $user->canAccessPanel(filament()->getPanel('admin')))) {
-            return $this->deny('Akun ini tidak memiliki akses ke panel admin.');
+        if ($user === null) {
+            // Auto-create user if they're in the allowlist
+            $user = User::create([
+                'name' => $googleUser->getName() ?? $email,
+                'email' => $email,
+                'password' => Hash::make(Str::random(32)),
+            ]);
+        } else {
+            // Check if existing user can access the admin panel
+            if (! $user->canAccessPanel(filament()->getPanel('admin'))) {
+                return $this->deny('Akun ini tidak memiliki akses ke panel admin.');
+            }
         }
 
         Auth::login($user);
