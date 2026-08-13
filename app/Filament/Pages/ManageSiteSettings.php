@@ -19,6 +19,7 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Storage;
 
 class ManageSiteSettings extends Page implements HasForms
 {
@@ -61,6 +62,15 @@ class ManageSiteSettings extends Page implements HasForms
                             FileUpload::make('logo')->label('Logo')->image()->directory('site')->disk('public'),
                             FileUpload::make('logo_dark')->label('Logo Dark Mode')->image()->directory('site')->disk('public'),
                             FileUpload::make('favicon')->label('Favicon')->image()->directory('site')->disk('public'),
+                            FileUpload::make('background_image')
+                                ->label('Background Image')
+                                ->image()
+                                ->disk('public')
+                                ->directory('settings/backgrounds')
+                                ->visibility('public')
+                                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                                ->maxSize(5120)
+                                ->columnSpanFull(),
                         ])->columns(2),
 
                         Tab::make('Perusahaan')->schema([
@@ -120,8 +130,18 @@ class ManageSiteSettings extends Page implements HasForms
 
     public function save(): void
     {
+        $settings = SiteSetting::instance();
+        $previousBackgroundImage = $settings->background_image;
         $data = $this->form->getState();
-        SiteSetting::updateOrCreate(['id' => 1], $data);
+        $settings->update($data);
+
+        if (
+            filled($previousBackgroundImage)
+            && $previousBackgroundImage !== $settings->background_image
+            && str_starts_with($previousBackgroundImage, 'settings/backgrounds/')
+        ) {
+            Storage::disk('public')->delete($previousBackgroundImage);
+        }
 
         Notification::make()->title('Pengaturan situs berhasil disimpan.')->success()->send();
     }

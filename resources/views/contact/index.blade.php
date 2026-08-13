@@ -11,7 +11,17 @@
     @endif
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-[#111111] text-white antialiased">
+<body
+    class="bg-[#111111] text-white antialiased"
+    @if(filled($settings?->background_image))
+        style="background-image: url('{{ \Illuminate\Support\Facades\Storage::disk('public')->url($settings->background_image) }}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;"
+    @endif
+>
+    @if(filled($settings?->background_image))
+        <div class="fixed inset-0 z-0 bg-black/50 pointer-events-none" aria-hidden="true"></div>
+    @endif
+
+    <div class="relative z-10">
 
     @include('components.sections.navbar', ['settings' => $settings, 'navItems' => $navItems])
 
@@ -365,6 +375,7 @@
         </div>
     </div>
     @endif
+    </div>
 
 </body>
 </html>

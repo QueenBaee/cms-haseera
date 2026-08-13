@@ -2,7 +2,8 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Auth\Login;
+use App\Filament\Pages\Auth\Login as GoogleOAuthLogin;
+use Filament\Auth\Pages\Login as FilamentLogin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -24,12 +25,16 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $loginPage = config('haseera.google_oauth_enabled')
+            ? GoogleOAuthLogin::class
+            : FilamentLogin::class;
+
         return $panel
             ->default()
             ->brandName('CMS Haseera')
             ->id('admin')
             ->path('admin')
-            ->login(Login::class)
+            ->login($loginPage)
             ->colors([
                 'primary' => Color::Amber,
             ])

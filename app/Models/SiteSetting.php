@@ -11,7 +11,7 @@ class SiteSetting extends Model
     protected $table = 'site_settings';
 
     protected $fillable = [
-        'site_name', 'site_tagline', 'logo', 'logo_dark', 'favicon',
+        'site_name', 'site_tagline', 'logo', 'logo_dark', 'favicon', 'background_image',
         'company_description', 'phone', 'whatsapp', 'email', 'address', 'google_maps_url',
         'instagram_url', 'facebook_url', 'youtube_url', 'linkedin_url', 'tiktok_url',
         'footer_text',
