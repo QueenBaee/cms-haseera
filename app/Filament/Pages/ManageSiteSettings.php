@@ -6,6 +6,7 @@ namespace App\Filament\Pages;
 
 use App\Models\SiteSetting;
 use Filament\Actions\Action;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -59,6 +60,11 @@ class ManageSiteSettings extends Page implements HasForms
                         Tab::make('Branding')->schema([
                             TextInput::make('site_name')->label('Nama Situs')->required(),
                             TextInput::make('site_tagline')->label('Tagline'),
+                            ColorPicker::make('button_color')
+                                ->label('Warna Tombol Utama')
+                                ->nullable()
+                                ->rules(['regex:/^#[0-9A-Fa-f]{6}$/'])
+                                ->helperText('Pilih warna untuk semua tombol utama (Warna default: Lime #b5ff41).'),
                             FileUpload::make('logo')->label('Logo')->image()->directory('site')->disk('public'),
                             FileUpload::make('logo_dark')->label('Logo Dark Mode')->image()->directory('site')->disk('public'),
                             FileUpload::make('favicon')->label('Favicon')->image()->directory('site')->disk('public'),

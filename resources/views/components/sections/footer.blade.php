@@ -24,7 +24,8 @@
                 }
             @endphp
             <a href="{{ $ctaUrl }}"
-               class="inline-flex max-w-full items-center justify-center gap-2 px-6 sm:px-8 py-4 rounded-xl bg-[#b5ff41] text-[#111111] text-center font-bold text-base hover:brightness-105 transition-all duration-200 hover:scale-105 shadow-lg shadow-[rgba(181,255,65,0.20)]">
+               class="inline-flex max-w-full items-center justify-center gap-2 px-6 sm:px-8 py-4 rounded-xl text-[#111111] text-center font-bold text-base hover:brightness-105 transition-all duration-200 hover:scale-105 shadow-lg shadow-black/20"
+               style="background-color: var(--btn-primary);">
                 {{ $settings->cta_button_text }}
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>

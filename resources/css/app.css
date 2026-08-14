@@ -216,7 +216,6 @@
         min-height: 58px;
         padding: 0 28px;
 
-        background: #b5ff41;
         color: #111111;
 
         font-size: 16px;
@@ -228,7 +227,7 @@
         border: none;
         border-radius: 14px;
 
-        box-shadow: 0 8px 30px rgba(181, 255, 65, 0.18);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
         transition: filter 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         cursor: pointer;
     }

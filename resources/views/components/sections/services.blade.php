@@ -204,9 +204,8 @@
             <a href="{{ $ctaUrl }}"
                target="_blank"
                rel="noopener noreferrer"
-               class="services-cta-btn"
-               onmouseenter="this.style.filter='brightness(1.07)'; this.style.boxShadow='0 10px 36px rgba(181,255,65,0.32)'; this.style.transform='translateY(-2px)';"
-               onmouseleave="this.style.filter='brightness(1)'; this.style.boxShadow='0 8px 30px rgba(181,255,65,0.18)'; this.style.transform='translateY(0)';">
+               class="services-cta-btn text-[#111111] hover:brightness-105"
+               style="background-color: var(--btn-primary);">
                 <span>Hubungi Kami Sekarang</span>
                 <svg class="services-cta-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
