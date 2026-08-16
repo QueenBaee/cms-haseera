@@ -21,6 +21,7 @@ use App\Rules\InternalOrExternalUrl;
 use App\Services\LandingPageService;
 use Database\Seeders\LandingPageSeeder;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 beforeEach(function (): void {
     config()->set('haseera.admin_google_emails', 'admin@example.com');
@@ -138,6 +139,47 @@ test('homepage reflects CompanyStatistic CMS edits', function () {
         ->assertSuccessful()
         ->assertSee('51++')
         ->assertDontSee('50++');
+});
+
+test('brand logos render from the public disk with graceful fallbacks', function () {
+    Storage::fake('public');
+    Storage::disk('public')->put('brands/available-logo.png', 'logo');
+
+    $availableBrand = Brand::create([
+        'name' => 'Available Brand',
+        'logo' => 'brands/available-logo.png',
+    ]);
+    $missingBrand = Brand::create([
+        'name' => 'Missing Brand',
+        'logo' => 'brands/missing-logo.png',
+    ]);
+    $brandWithoutLogo = new Brand(['name' => 'No Logo']);
+
+    $availableHtml = view('components.sections._brand-item', ['brand' => $availableBrand])->render();
+    $missingHtml = view('components.sections._brand-item', ['brand' => $missingBrand])->render();
+    $noLogoHtml = view('components.sections._brand-item', ['brand' => $brandWithoutLogo])->render();
+
+    expect($availableHtml)
+        ->toContain(Storage::disk('public')->url('brands/available-logo.png'))
+        ->toContain('alt=""')
+        ->toContain('onerror=')
+        ->toContain('AV');
+    expect($missingHtml)
+        ->not->toContain('<img')
+        ->toContain('MI');
+    expect($noLogoHtml)
+        ->not->toContain('<img')
+        ->toContain('NO');
+});
+
+test('statistics use mobile-first value typography while preserving desktop sizing', function () {
+    $statistics = collect([
+        new CompanyStatistic(['value' => '50++', 'label' => 'Proyek dan event sukses']),
+    ]);
+
+    $html = view('components.sections.statistics', compact('statistics'))->render();
+
+    expect($html)->toContain('whitespace-nowrap text-4xl sm:text-5xl lg:text-[clamp(40px,3.5vw,64px)]');
 });
 
 test('NavigationItem active scope filters inactive records', function () {

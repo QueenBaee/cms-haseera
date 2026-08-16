@@ -10,7 +10,7 @@
             @foreach($statistics as $index => $stat)
             @php $isLong = mb_strlen($stat->value) > 8; @endphp
             <article class="statistics-card group flex min-h-40 min-w-0 flex-col items-center justify-center rounded-2xl px-4 py-6 text-center transition duration-300 hover:-translate-y-0.5 sm:min-h-44 sm:px-5">
-                <div class="{{ $isLong ? 'statistics-value stat-value-long' : 'statistics-value' }} mb-3 font-bold leading-none"
+                <div class="{{ $isLong ? 'statistics-value stat-value-long' : 'statistics-value whitespace-nowrap text-4xl sm:text-5xl lg:text-[clamp(40px,3.5vw,64px)]' }} mb-3 font-bold leading-none"
                      x-data="statCounter(@js($stat->value), {{ $index * 80 }})"
                      x-init="init()">
                     @if($stat->prefix)<span>{{ $stat->prefix }}</span>@endif<span x-text="display">{{ $stat->value }}</span>@if($stat->suffix)<span>{{ $stat->suffix }}</span>@endif

@@ -3,6 +3,7 @@
     $logoUrl = $hasLogo ? Storage::disk('public')->url($brand->logo) : null;
     $tag     = $brand->website_url ? 'a' : 'div';
     $scale   = max(70, min(180, (int) ($brand->logo_scale ?? 100)));
+    $fallback = mb_strtoupper(mb_substr(trim($brand->name), 0, 2));
 @endphp
 
 <{{ $tag }}
@@ -11,6 +12,9 @@
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Kunjungi website {{ $brand->name }}"
+    @endif
+    @if(! $brand->website_url)
+        aria-label="{{ $brand->name }}"
     @endif
     class="brand-card flex-none flex items-center justify-center rounded-[28px] transition-all duration-300 hover:-translate-y-1.5 {{ $brand->website_url ? 'cursor-pointer' : '' }}"
     style="
@@ -27,14 +31,18 @@
     @if($logoUrl)
         <img
             src="{{ $logoUrl }}"
-            alt="{{ $brand->name }}"
+            alt=""
             loading="lazy"
             class="object-contain brand-logo-img"
             style="transform: scale({{ $scale / 100 }}); transform-origin: center; max-width: 145px; max-height: 50px; width: auto; height: auto;"
+            onerror="this.hidden=true; this.nextElementSibling.classList.remove('hidden'); this.nextElementSibling.classList.add('flex');"
         >
+        <span class="hidden items-center justify-center text-lg font-bold tracking-wider text-white/55" aria-hidden="true">
+            {{ $fallback }}
+        </span>
     @else
-        <span class="text-[11px] font-semibold text-neutral-400 text-center leading-tight px-2">
-            {{ $brand->name }}
+        <span class="flex items-center justify-center text-lg font-bold tracking-wider text-white/55" aria-hidden="true">
+            {{ $fallback }}
         </span>
     @endif
 </{{ $tag }}>
