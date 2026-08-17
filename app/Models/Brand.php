@@ -6,10 +6,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Brand extends Model
 {
     use HasFactory;
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Brand $brand) {
+            if (! empty($brand->logo)) {
+                Storage::disk('public')->delete($brand->logo);
+            }
+        });
+    }
 
     protected $fillable = [
         'name',
