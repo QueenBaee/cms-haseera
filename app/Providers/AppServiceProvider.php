@@ -20,6 +20,9 @@ use App\Models\SiteSetting;
 use App\Models\SocialMediaLink;
 use App\Models\Testimonial;
 use App\Observers\LandingPageCacheObserver;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,6 +40,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('contact', function (Request $request): Limit {
+            return Limit::perMinute(5)->by($request->user()?->id ?: $request->ip());
+        });
+
         foreach ([
             LandingPageSetting::class,
             NavigationItem::class,
