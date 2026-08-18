@@ -76,7 +76,13 @@
                         {{-- Image --}}
                         <div class="relative overflow-hidden bg-[#141414]">
                             <div class="aspect-[16/9] lg:aspect-auto lg:h-[340px]">
-                                @if($portfolio->video_file)
+                                @if($portfolio->gdrive_direct_stream_url)
+                                <video autoplay muted loop playsinline
+                                       class="w-full h-full object-cover"
+                                       @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>
+                                    <source src="{{ $portfolio->gdrive_direct_stream_url }}">
+                                </video>
+                                @elseif($portfolio->video_file)
                                 <video autoplay muted loop playsinline
                                        class="w-full h-full object-cover"
                                        @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>
@@ -216,7 +222,13 @@
 
                 <div class="{{ $isEven ? 'lg:order-1' : 'lg:order-2' }} relative overflow-hidden bg-[#141414]">
                     <div class="aspect-[16/9] lg:aspect-auto lg:h-[200px]">
-                        @if($portfolio->video_file)
+                        @if($portfolio->gdrive_direct_stream_url)
+                        <video autoplay muted loop playsinline
+                               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                               @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>
+                            <source src="{{ $portfolio->gdrive_direct_stream_url }}">
+                        </video>
+                        @elseif($portfolio->video_file)
                         <video autoplay muted loop playsinline
                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>

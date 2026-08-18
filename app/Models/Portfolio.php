@@ -8,6 +8,7 @@ use App\Enums\ContentAlignment;
 use App\Enums\ImageFit;
 use App\Enums\PortfolioLayoutVariant;
 use App\Traits\HandlesMediaCleanup;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -36,6 +37,7 @@ class Portfolio extends Model
         'cover_image',
         'logo',
         'video_file',
+        'gdrive_video_url',
         'project_url',
         'button_text',
         'technologies',
@@ -76,6 +78,52 @@ class Portfolio extends Model
         }
 
         return $slug.($count ? "-{$count}" : '');
+    }
+
+    public static function extractGoogleDriveFileId(?string $url): ?string
+    {
+        if (blank($url)) {
+            return null;
+        }
+
+        $parts = parse_url(trim($url));
+
+        if (! is_array($parts) || strtolower($parts['scheme'] ?? '') !== 'https') {
+            return null;
+        }
+
+        $host = strtolower($parts['host'] ?? '');
+
+        if (! in_array($host, ['drive.google.com', 'www.drive.google.com'], true)) {
+            return null;
+        }
+
+        $fileId = null;
+        $path = $parts['path'] ?? '';
+
+        if (preg_match('#^/file/d/([^/]+)(?:/|$)#', $path, $matches) === 1) {
+            $fileId = $matches[1];
+        } elseif (in_array(rtrim($path, '/'), ['/open', '/uc'], true)) {
+            parse_str($parts['query'] ?? '', $query);
+            $fileId = is_string($query['id'] ?? null) ? $query['id'] : null;
+        }
+
+        if (! is_string($fileId) || preg_match('/\A[A-Za-z0-9_-]+\z/D', $fileId) !== 1) {
+            return null;
+        }
+
+        return $fileId;
+    }
+
+    protected function gdriveDirectStreamUrl(): Attribute
+    {
+        return Attribute::get(function (): ?string {
+            $fileId = self::extractGoogleDriveFileId($this->gdrive_video_url);
+
+            return $fileId === null
+                ? null
+                : 'https://drive.google.com/uc?export=download&id='.rawurlencode($fileId);
+        });
     }
 
     public function category(): BelongsTo

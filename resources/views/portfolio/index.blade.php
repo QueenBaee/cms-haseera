@@ -66,7 +66,13 @@
                     {{-- Image --}}
                     <div class="relative overflow-hidden bg-[#141414]">
                         <div class="aspect-[16/10]">
-                            @if($portfolio->video_file)
+                            @if($portfolio->gdrive_direct_stream_url)
+                            <video autoplay muted loop playsinline
+                                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                   @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>
+                                <source src="{{ $portfolio->gdrive_direct_stream_url }}">
+                            </video>
+                            @elseif($portfolio->video_file)
                             <video autoplay muted loop playsinline
                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                    @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>
