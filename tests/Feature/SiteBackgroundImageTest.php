@@ -2,7 +2,28 @@
 
 declare(strict_types=1);
 
+use App\Filament\Pages\ManageSiteSettings;
 use App\Models\SiteSetting;
+use App\Models\User;
+use Filament\Forms\Components\FileUpload;
+use Livewire\Livewire;
+
+test('background image uploads allow up to 50 MB at both upload validation layers', function (): void {
+    config()->set('haseera.admin_google_emails', 'admin@example.com');
+
+    $this->actingAs(User::factory()->create(['email' => 'admin@example.com']));
+
+    expect(config('livewire.temporary_file_upload.rules'))
+        ->toBe(['required', 'file', 'max:51200']);
+
+    Livewire::test(ManageSiteSettings::class)
+        ->assertSchemaComponentExists(
+            'background_image',
+            checkComponentUsing: fn (FileUpload $component): bool => $component->getMaxSize() === 51200
+                && $component->getAcceptedFileTypes() === ['image/jpeg', 'image/png', 'image/webp']
+                && $component->shouldPreventFilePathTampering(),
+        );
+});
 
 test('site background image can be persisted', function () {
     $settings = SiteSetting::instance();

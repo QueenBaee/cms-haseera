@@ -20,7 +20,7 @@ class Portfolio extends Model
     use HandlesMediaCleanup, HasFactory;
     use SoftDeletes;
 
-    protected array $mediaFields = ['thumbnail', 'cover_image', 'logo'];
+    protected array $mediaFields = ['thumbnail', 'cover_image', 'logo', 'video_file'];
 
     protected $fillable = [
         'portfolio_category_id',
@@ -35,6 +35,7 @@ class Portfolio extends Model
         'thumbnail',
         'cover_image',
         'logo',
+        'video_file',
         'project_url',
         'button_text',
         'technologies',

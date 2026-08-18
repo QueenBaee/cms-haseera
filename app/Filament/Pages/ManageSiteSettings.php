@@ -75,7 +75,8 @@ class ManageSiteSettings extends Page implements HasForms
                                 ->directory('settings/backgrounds')
                                 ->visibility('public')
                                 ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                                ->maxSize(5120)
+                                ->maxSize(51200)
+                                ->preventFilePathTampering()
                                 ->columnSpanFull(),
                         ])->columns(2),
 

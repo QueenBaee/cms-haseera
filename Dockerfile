@@ -32,6 +32,7 @@ ENV SERVER_ROOT=public/
 
 # PHP production configuration
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY php-uploads.ini "$PHP_INI_DIR/conf.d/zz-uploads.ini"
 
 # Tools yang dibutuhkan Composer / healthcheck
 RUN apt-get update \

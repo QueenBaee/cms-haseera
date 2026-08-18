@@ -76,7 +76,14 @@
                         {{-- Image --}}
                         <div class="relative overflow-hidden bg-[#141414]">
                             <div class="aspect-[16/9] lg:aspect-auto lg:h-[340px]">
-                                @if($portfolio->thumbnail || $portfolio->cover_image)
+                                @if($portfolio->video_file)
+                                <video autoplay muted loop playsinline
+                                       class="w-full h-full object-cover"
+                                       @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>
+                                    <source src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->video_file) }}"
+                                            type="{{ strtolower(pathinfo($portfolio->video_file, PATHINFO_EXTENSION)) === 'webm' ? 'video/webm' : 'video/mp4' }}">
+                                </video>
+                                @elseif($portfolio->thumbnail || $portfolio->cover_image)
                                 <img src="{{ asset('storage/' . ($portfolio->thumbnail ?? $portfolio->cover_image)) }}"
                                      alt="{{ $portfolio->title }}"
                                      class="w-full h-full object-cover">
@@ -209,7 +216,14 @@
 
                 <div class="{{ $isEven ? 'lg:order-1' : 'lg:order-2' }} relative overflow-hidden bg-[#141414]">
                     <div class="aspect-[16/9] lg:aspect-auto lg:h-[200px]">
-                        @if($portfolio->thumbnail || $portfolio->cover_image)
+                        @if($portfolio->video_file)
+                        <video autoplay muted loop playsinline
+                               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                               @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>
+                            <source src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->video_file) }}"
+                                    type="{{ strtolower(pathinfo($portfolio->video_file, PATHINFO_EXTENSION)) === 'webm' ? 'video/webm' : 'video/mp4' }}">
+                        </video>
+                        @elseif($portfolio->thumbnail || $portfolio->cover_image)
                         <img src="{{ asset('storage/' . ($portfolio->thumbnail ?? $portfolio->cover_image)) }}"
                              alt="{{ $portfolio->title }}"
                              loading="lazy"
