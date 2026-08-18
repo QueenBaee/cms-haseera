@@ -52,13 +52,21 @@
 
                     {{-- Image --}}
                     <div class="relative overflow-hidden bg-[#141414]">
-                        <div class="aspect-[16/10]">
-                            @if($portfolio->gdrive_direct_stream_url)
-                            <video autoplay muted loop playsinline
-                                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                   @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>
-                                <source src="{{ $portfolio->gdrive_direct_stream_url }}">
-                            </video>
+                        <div class="relative aspect-[16/10]">
+                            @if($portfolio->youtube_embed_url)
+                            <iframe src="{{ $portfolio->youtube_embed_url }}"
+                                    title="Video {{ $portfolio->title }}"
+                                    class="absolute inset-0 w-full h-full border-0 pointer-events-none"
+                                    allow="autoplay; encrypted-media; picture-in-picture"
+                                    allowfullscreen
+                                    loading="lazy"></iframe>
+                            @elseif($portfolio->gdrive_embed_url)
+                            <iframe src="{{ $portfolio->gdrive_embed_url }}"
+                                    title="Video {{ $portfolio->title }}"
+                                    class="w-full h-full border-0"
+                                    allow="autoplay; fullscreen"
+                                    allowfullscreen
+                                    loading="lazy"></iframe>
                             @elseif($portfolio->video_file)
                             <video autoplay muted loop playsinline
                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

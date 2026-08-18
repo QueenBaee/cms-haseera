@@ -75,13 +75,21 @@
 
                         {{-- Image --}}
                         <div class="relative overflow-hidden bg-[#141414]">
-                            <div class="aspect-[16/9] lg:aspect-auto lg:h-[340px]">
-                                @if($portfolio->gdrive_direct_stream_url)
-                                <video autoplay muted loop playsinline
-                                       class="w-full h-full object-cover"
-                                       @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>
-                                    <source src="{{ $portfolio->gdrive_direct_stream_url }}">
-                                </video>
+                            <div class="relative aspect-[16/9] lg:aspect-auto lg:h-[340px]">
+                                @if($portfolio->youtube_embed_url)
+                                <iframe src="{{ $portfolio->youtube_embed_url }}"
+                                        title="Video {{ $portfolio->title }}"
+                                        class="absolute inset-0 w-full h-full border-0 pointer-events-none"
+                                        allow="autoplay; encrypted-media; picture-in-picture"
+                                        allowfullscreen
+                                        loading="lazy"></iframe>
+                                @elseif($portfolio->gdrive_embed_url)
+                                <iframe src="{{ $portfolio->gdrive_embed_url }}"
+                                        title="Video {{ $portfolio->title }}"
+                                        class="w-full h-full border-0"
+                                        allow="autoplay; fullscreen"
+                                        allowfullscreen
+                                        loading="lazy"></iframe>
                                 @elseif($portfolio->video_file)
                                 <video autoplay muted loop playsinline
                                        class="w-full h-full object-cover"
@@ -221,13 +229,21 @@
             <article class="group grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-xl border border-white/[0.08] bg-[#1A1A1A] overflow-hidden hover:border-purple-500/30 transition-all duration-300">
 
                 <div class="{{ $isEven ? 'lg:order-1' : 'lg:order-2' }} relative overflow-hidden bg-[#141414]">
-                    <div class="aspect-[16/9] lg:aspect-auto lg:h-[200px]">
-                        @if($portfolio->gdrive_direct_stream_url)
-                        <video autoplay muted loop playsinline
-                               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                               @if($portfolio->thumbnail || $portfolio->cover_image) poster="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->thumbnail ?? $portfolio->cover_image) }}" @endif>
-                            <source src="{{ $portfolio->gdrive_direct_stream_url }}">
-                        </video>
+                    <div class="relative aspect-[16/9] lg:aspect-auto lg:h-[200px]">
+                        @if($portfolio->youtube_embed_url)
+                        <iframe src="{{ $portfolio->youtube_embed_url }}"
+                                title="Video {{ $portfolio->title }}"
+                                class="absolute inset-0 w-full h-full border-0 pointer-events-none"
+                                allow="autoplay; encrypted-media; picture-in-picture"
+                                allowfullscreen
+                                loading="lazy"></iframe>
+                        @elseif($portfolio->gdrive_embed_url)
+                        <iframe src="{{ $portfolio->gdrive_embed_url }}"
+                                title="Video {{ $portfolio->title }}"
+                                class="w-full h-full border-0"
+                                allow="autoplay; fullscreen"
+                                allowfullscreen
+                                loading="lazy"></iframe>
                         @elseif($portfolio->video_file)
                         <video autoplay muted loop playsinline
                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

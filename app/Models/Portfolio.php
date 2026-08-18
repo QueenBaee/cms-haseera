@@ -38,6 +38,7 @@ class Portfolio extends Model
         'logo',
         'video_file',
         'gdrive_video_url',
+        'youtube_video_url',
         'project_url',
         'button_text',
         'technologies',
@@ -115,14 +116,60 @@ class Portfolio extends Model
         return $fileId;
     }
 
-    protected function gdriveDirectStreamUrl(): Attribute
+    public static function extractYouTubeVideoId(?string $url): ?string
+    {
+        if (blank($url)) {
+            return null;
+        }
+
+        $parts = parse_url(trim($url));
+
+        if (! is_array($parts) || strtolower($parts['scheme'] ?? '') !== 'https') {
+            return null;
+        }
+
+        $host = strtolower($parts['host'] ?? '');
+        $path = $parts['path'] ?? '';
+        $videoId = null;
+
+        if (in_array($host, ['youtube.com', 'www.youtube.com', 'm.youtube.com'], true)) {
+            if (rtrim($path, '/') === '/watch') {
+                parse_str($parts['query'] ?? '', $query);
+                $videoId = is_string($query['v'] ?? null) ? $query['v'] : null;
+            } elseif (preg_match('#^/(?:shorts|embed)/([^/]+)(?:/|$)#', $path, $matches) === 1) {
+                $videoId = $matches[1];
+            }
+        } elseif (in_array($host, ['youtu.be', 'www.youtu.be'], true)
+            && preg_match('#^/([^/]+)(?:/|$)#', $path, $matches) === 1) {
+            $videoId = $matches[1];
+        }
+
+        if (! is_string($videoId) || preg_match('/\A[A-Za-z0-9_-]{11}\z/D', $videoId) !== 1) {
+            return null;
+        }
+
+        return $videoId;
+    }
+
+    protected function youtubeEmbedUrl(): Attribute
+    {
+        return Attribute::get(function (): ?string {
+            $videoId = self::extractYouTubeVideoId($this->youtube_video_url);
+
+            return $videoId === null
+                ? null
+                : 'https://www.youtube.com/embed/'.$videoId.'?autoplay=1&mute=1&controls=0&loop=1&playlist='.$videoId.'&playsinline=1';
+        });
+    }
+
+    protected function gdriveEmbedUrl(): Attribute
     {
         return Attribute::get(function (): ?string {
             $fileId = self::extractGoogleDriveFileId($this->gdrive_video_url);
 
             return $fileId === null
                 ? null
-                : 'https://drive.google.com/uc?export=download&id='.rawurlencode($fileId);
+                : 'https://drive.google.com/file/d/'.rawurlencode($fileId).'/preview';
         });
     }
 
