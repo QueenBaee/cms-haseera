@@ -6,6 +6,7 @@ use App\Filament\Pages\ManageSiteSettings;
 use App\Models\SiteSetting;
 use App\Models\User;
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 test('background image uploads allow up to 50 MB at both upload validation layers', function (): void {
@@ -36,17 +37,33 @@ test('site background image can be persisted', function () {
         ->toBe('settings/backgrounds/site-background.webp');
 });
 
-test('public pages render the configured background and overlay', function (string $url) {
+test('site background image renders only inside the homepage hero', function () {
+    SiteSetting::instance()->update([
+        'background_image' => 'settings/backgrounds/site-background.webp',
+    ]);
+
+    $html = $this->get('/')
+        ->assertSuccessful()
+        ->getContent();
+
+    expect($html)
+        ->toContain('id="hero"')
+        ->toContain('bg-cover bg-center bg-no-repeat')
+        ->toContain("background-image: url('".Storage::disk('public')->url('settings/backgrounds/site-background.webp')."');")
+        ->toContain('absolute inset-0 bg-black/50 pointer-events-none')
+        ->not->toMatch('/<body[^>]+background-image:/s');
+});
+
+test('standalone pages do not use the site background image', function (string $url) {
     SiteSetting::instance()->update([
         'background_image' => 'settings/backgrounds/site-background.webp',
     ]);
 
     $this->get($url)
         ->assertSuccessful()
-        ->assertSee('/storage/settings/backgrounds/site-background.webp', false)
-        ->assertSee('fixed inset-0 z-0 bg-black/50 pointer-events-none', false)
-        ->assertSee('relative z-10', false);
-})->with(['/', '/portfolio', '/kontak']);
+        ->assertDontSee('/storage/settings/backgrounds/site-background.webp', false)
+        ->assertSee('bg-[#111111] text-white antialiased', false);
+})->with(['/portfolio', '/kontak']);
 
 test('public pages keep the fallback background without an overlay', function (string $url) {
     SiteSetting::instance()->update(['background_image' => null]);
@@ -54,5 +71,5 @@ test('public pages keep the fallback background without an overlay', function (s
     $this->get($url)
         ->assertSuccessful()
         ->assertSee('bg-[#111111] text-white antialiased', false)
-        ->assertDontSee('fixed inset-0 z-0 bg-black/50 pointer-events-none', false);
+        ->assertDontSee('absolute inset-0 bg-black/50 pointer-events-none', false);
 })->with(['/', '/portfolio', '/kontak']);

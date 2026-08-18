@@ -1,4 +1,12 @@
-<section id="hero" class="relative min-h-[85svh] sm:min-h-screen flex items-center justify-center overflow-hidden pt-16">
+<section id="hero"
+         class="relative min-h-[85svh] sm:min-h-screen flex items-center justify-center overflow-hidden pt-16 bg-[#111111] bg-cover bg-center bg-no-repeat"
+         @if(filled($settings?->background_image))
+         style="background-image: url('{{ \Illuminate\Support\Facades\Storage::disk('public')->url($settings->background_image) }}');"
+         @endif>
+
+    @if(filled($settings?->background_image))
+    <div class="absolute inset-0 bg-black/50 pointer-events-none" aria-hidden="true"></div>
+    @endif
 
     {{-- Purple radial glow background --}}
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">

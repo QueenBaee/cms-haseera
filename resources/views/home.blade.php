@@ -35,21 +35,8 @@
 </head>
 <body
     class="bg-[#111111] text-white antialiased"
-    style="
-        @if(filled($settings?->background_image))
-            background-image: url('{{ \Illuminate\Support\Facades\Storage::disk('public')->url($settings->background_image) }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        @endif
-        --btn-primary: {{ $settings?->button_color ?? '#b5ff41' }};
-    "
+    style="--btn-primary: {{ $settings?->button_color ?? '#b5ff41' }};"
 >
-    @if(filled($settings?->background_image))
-        <div class="fixed inset-0 z-0 bg-black/50 pointer-events-none" aria-hidden="true"></div>
-    @endif
-
     <div class="relative z-10">
 
     @include('components.sections.navbar', ['settings' => $settings, 'navItems' => $navItems])
